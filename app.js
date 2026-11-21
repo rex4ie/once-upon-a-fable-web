@@ -83,7 +83,7 @@ const TX = {
     tWelcomeT: 'Welcome!', tWelcome: 'Here is a short tour. It shows you how to read, listen, change the settings and practise.',
     tStoryT: 'The stories', tStory: 'Tap a story to read it. The first one is free; the others open with a licence key.',
     tCardsT: 'Flashcards', tCards: 'The new words from the stories you read come here. Review a few every day so you remember them.',
-    tSetT: 'Settings', tSet: 'Change the theme, font, text size and the app language here.',
+    tSetT: 'Settings', tSet: 'Change the theme, font, text size and the app language here. Inside a story, the Aa button opens the reading settings.',
     tAboutT: 'About', tAbout: 'Check for updates, enter your licence key, or see this guide again.', tAboutWeb: 'Enter your licence key, contact the author, or see this guide again.',
     tListenT: 'Listen', tListen: 'Tap here to hear the story in an American or British voice. Each sentence lights up as it is read.',
     tTypeT: 'Reading settings', tType: 'Change the size, font and colours without leaving the story.',
@@ -125,7 +125,7 @@ const TX = {
     tWelcomeT: 'خوش آمدید!', tWelcome: 'یک راهنمای کوتاه: خواندن، گوش دادن، تغییر تنظیمات و تمرین کردن را نشانتان می‌دهد.',
     tStoryT: 'داستان‌ها', tStory: 'روی یک داستان بزنید تا آن را بخوانید. داستان اول رایگان است؛ بقیه با کد لایسنس باز می‌شوند.',
     tCardsT: 'فلش‌کارت‌ها', tCards: 'واژه‌های تازهٔ داستان‌هایی که می‌خوانید اینجا می‌آیند. هر روز چندتا را مرور کنید تا در یادتان بمانند.',
-    tSetT: 'تنظیمات', tSet: 'رنگ، قلم، اندازهٔ متن و زبان برنامه را اینجا تغییر دهید.',
+    tSetT: 'تنظیمات', tSet: 'رنگ، قلم، اندازهٔ متن و زبان برنامه را اینجا تغییر دهید. داخل داستان هم دکمهٔ Aa تنظیمات خواندن را باز می‌کند.',
     tAboutT: 'درباره', tAbout: 'به‌روزرسانی را بررسی کنید، کد لایسنس را وارد کنید یا این راهنما را دوباره ببینید.', tAboutWeb: 'کد لایسنس را وارد کنید، با نویسنده در تماس باشید یا این راهنما را دوباره ببینید.',
     tListenT: 'گوش دادن', tListen: 'اینجا را بزنید تا داستان را با صدای آمریکایی یا بریتانیایی بشنوید. هر جمله هنگام خوانده شدن روشن می‌شود.',
     tTypeT: 'تنظیمات خواندن', tType: 'اندازه، قلم و رنگ را بدون بیرون رفتن از داستان تغییر دهید.',
@@ -805,7 +805,7 @@ function chooseLanguage() {
 }
 const TOURS = {
   home: [{ k: 'tWelcome' }, { sel: '.list .row', k: 'tStory' }, { sel: '#b-cards', k: 'tCards' }, { sel: '#b-set', k: 'tSet' }, { sel: '#b-about', k: 'tAbout' }],
-  lesson: [{ sel: '#b-listen', k: 'tListen' }, { sel: '#b-type', k: 'tType' }, { sel: '#t-full', k: 'tTr' }, { sel: '.story .w.v', k: 'tWord' }, { sel: '#b-ex', k: 'tEx' }],
+  lesson: [{ sel: '#b-listen', k: 'tListen' }, { sel: '#t-full', k: 'tTr' }, { sel: '.story .w.v', k: 'tWord' }, { sel: '#b-ex', k: 'tEx' }],
   player: [{ sel: '#player .top', k: 'tPlay' }, { sel: '#pl-sp', k: 'tSpd' }, { sel: '.pl-tg', k: 'tPlTg' }],
 };
 const Tour = {

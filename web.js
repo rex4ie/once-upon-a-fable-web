@@ -9,7 +9,7 @@ window.IS_WEB = true;
   const ls = { get: k => { try { return localStorage.getItem(K + k) || ''; } catch (e) { return ''; } }, set: (k, v) => { try { localStorage.setItem(K + k, v); } catch (e) {} } };
   const audioUrl = rel => { const m = rel.match(/-(\d+)\.ogg$/); return 'audio/' + (m ? m[1] : '0') + '.opus'; };
   window.Native = {
-    version: () => '1.3',
+    version: () => '1.4',
     exists: rel => rel.startsWith('audio/') || !!ls.get(rel),
     readText: rel => ls.get(rel),
     writeText: (rel, t) => ls.set(rel, t),
