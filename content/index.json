@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "channel": "faagssdgsdaabliessdfsd",
   "lessons": [
     {
@@ -295,7 +295,7 @@
       "rev": 1,
       "audio": {
         "us": {
-          "post": 40
+          "post": 62
         },
         "br": {
           "post": 41
