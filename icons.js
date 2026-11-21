@@ -1,0 +1,27 @@
+// Line icons (24px grid, 1.6 stroke). Usage: I.back
+const ic = d => `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+window.I = {
+  back: ic('<path d="M15 5l-7 7 7 7"/>'),
+  close: ic('<path d="M6 6l12 12M18 6L6 18"/>'),
+  type: ic('<path d="M4 18L8.5 6h1L14 18M5.6 14h6.8"/><path d="M15.5 18l2.8-7.5h.6L21.7 18M16.4 15.5h4.4"/>'),
+  info: ic('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'),
+  sliders: ic('<path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/>'),
+  headphones: ic('<path d="M4 15v-3a8 8 0 0116 0v3"/><rect x="3.5" y="14" width="4" height="6" rx="1.5"/><rect x="16.5" y="14" width="4" height="6" rx="1.5"/>'),
+  play: ic('<path d="M8 5.5v13l10.5-6.5z"/>'),
+  pause: ic('<path d="M8.5 5.5v13M15.5 5.5v13"/>'),
+  rewind: ic('<path d="M4.5 12a7.5 7.5 0 107.5-7.5H8"/><path d="M10.5 2L8 4.5 10.5 7"/>'),
+  forward: ic('<path d="M19.5 12A7.5 7.5 0 1112 4.5h4"/><path d="M13.5 2L16 4.5 13.5 7"/>'),
+  chevron: ic('<path d="M9 5l7 7-7 7"/>'),
+  check: ic('<path d="M5 12.5l4.5 4.5L19 7.5"/>'),
+  download: ic('<path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/>'),
+  refresh: ic('<path d="M19.5 12a7.5 7.5 0 11-2.2-5.3"/><path d="M19.5 4.5v4h-4"/>'),
+  mail: ic('<rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 6 8-6"/>'),
+  camera: ic('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M16.8 7.2h.01"/>'),
+  book: ic('<path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5zM12 6.5v13"/>'),
+  trash: ic('<path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5"/>'),
+  translate: ic('<path d="M4 5.5h9M8.5 4v1.5c0 4-2 7-4.5 8.5M6.5 9.5c1 2 3 3.5 5 4.5"/><path d="M12.5 20l3.8-8.5h.4L20.5 20M13.8 17.5h5.4"/>'),
+  cards: ic('<rect x="3.5" y="6.5" width="13" height="14" rx="2"/><path d="M8 3.5h10.5a2 2 0 012 2V17"/>'),
+  pencil: ic('<path d="M15 5l4 4L8.5 19.5H4.5v-4z"/><path d="M13 7l4 4"/>'),
+  x: ic('<path d="M7 7l10 10M17 7L7 17"/>'),
+  follow: ic('<path d="M4 6h16M4 10h10M4 14h16M4 18h8"/>'),
+};

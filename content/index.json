@@ -1,0 +1,456 @@
+{
+  "version": 3,
+  "channel": "faagssdgsdaabliessdfsd",
+  "lessons": [
+    {
+      "id": "01",
+      "title": "The Boy Who Cried Wolf",
+      "origin": "Aesop, Greece",
+      "cover": "2.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 2
+        },
+        "br": {
+          "post": 3
+        }
+      }
+    },
+    {
+      "id": "02",
+      "title": "The Scorpion and the Frog",
+      "origin": "Traditional fable",
+      "cover": "7.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 4
+        },
+        "br": {
+          "post": 5
+        }
+      }
+    },
+    {
+      "id": "03",
+      "title": "The Tortoise and the Hare",
+      "origin": "Aesop, Greece",
+      "cover": "12.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 6
+        },
+        "br": {
+          "post": 7
+        }
+      }
+    },
+    {
+      "id": "04",
+      "title": "The Lion and the Mouse",
+      "origin": "Aesop, Greece",
+      "cover": "17.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 8
+        },
+        "br": {
+          "post": 9
+        }
+      }
+    },
+    {
+      "id": "05",
+      "title": "The Monkey and the Crocodile",
+      "origin": "Panchatantra, India",
+      "cover": "22.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 10
+        },
+        "br": {
+          "post": 11
+        }
+      }
+    },
+    {
+      "id": "06",
+      "title": "The Lion and the Clever Rabbit",
+      "origin": "Kalila wa Dimna, Persia & India",
+      "cover": "27.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 12
+        },
+        "br": {
+          "post": 13
+        }
+      }
+    },
+    {
+      "id": "07",
+      "title": "The Goose That Laid the Golden Eggs",
+      "origin": "Aesop, Greece",
+      "cover": "32.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 14
+        },
+        "br": {
+          "post": 15
+        }
+      }
+    },
+    {
+      "id": "08",
+      "title": "The Fox and the Crow",
+      "origin": "Aesop, Greece",
+      "cover": "37.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 16
+        },
+        "br": {
+          "post": 17
+        }
+      }
+    },
+    {
+      "id": "09",
+      "title": "The Blind Men and the Elephant",
+      "origin": "Traditional tale, India",
+      "cover": "42.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 18
+        },
+        "br": {
+          "post": 19
+        }
+      }
+    },
+    {
+      "id": "10",
+      "title": "The Wolf in Sheep's Clothing",
+      "origin": "Aesop, Greece",
+      "cover": "47.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 20
+        },
+        "br": {
+          "post": 21
+        }
+      }
+    },
+    {
+      "id": "11",
+      "title": "The Fox and the Grapes",
+      "origin": "Aesop, Greece",
+      "cover": "52.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 22
+        },
+        "br": {
+          "post": 23
+        }
+      }
+    },
+    {
+      "id": "12",
+      "title": "The Ant and the Grasshopper",
+      "origin": "Aesop, Greece",
+      "cover": "57.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 24
+        },
+        "br": {
+          "post": 25
+        }
+      }
+    },
+    {
+      "id": "13",
+      "title": "The Donkey in the Lion's Skin",
+      "origin": "Aesop, Greece",
+      "cover": "62.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 26
+        },
+        "br": {
+          "post": 27
+        }
+      }
+    },
+    {
+      "id": "14",
+      "title": "The Fox and the Goat",
+      "origin": "Aesop, Greece",
+      "cover": "67.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 28
+        },
+        "br": {
+          "post": 29
+        }
+      }
+    },
+    {
+      "id": "15",
+      "title": "Belling the Cat",
+      "origin": "Aesop, Greece",
+      "cover": "72.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 30
+        },
+        "br": {
+          "post": 31
+        }
+      }
+    },
+    {
+      "id": "16",
+      "title": "The Crow and the Pitcher",
+      "origin": "Aesop, Greece",
+      "cover": "77.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 32
+        },
+        "br": {
+          "post": 33
+        }
+      }
+    },
+    {
+      "id": "17",
+      "title": "The North Wind and the Sun",
+      "origin": "Aesop, Greece",
+      "cover": "82.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 34
+        },
+        "br": {
+          "post": 35
+        }
+      }
+    },
+    {
+      "id": "18",
+      "title": "The Milkmaid and Her Pail",
+      "origin": "Aesop & La Fontaine",
+      "cover": "87.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 36
+        },
+        "br": {
+          "post": 37
+        }
+      }
+    },
+    {
+      "id": "19",
+      "title": "The Dog and His Reflection",
+      "origin": "Aesop, Greece",
+      "cover": "92.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 38
+        },
+        "br": {
+          "post": 39
+        }
+      }
+    },
+    {
+      "id": "20",
+      "title": "The Miller, His Son and the Donkey",
+      "origin": "Aesop & La Fontaine",
+      "cover": "97.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 40
+        },
+        "br": {
+          "post": 41
+        }
+      }
+    },
+    {
+      "id": "21",
+      "title": "The Town Mouse and the Country Mouse",
+      "origin": "Aesop, Greece",
+      "cover": "102.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 42
+        },
+        "br": {
+          "post": 43
+        }
+      }
+    },
+    {
+      "id": "22",
+      "title": "The Fox and the Stork",
+      "origin": "Aesop, Greece",
+      "cover": "107.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 44
+        },
+        "br": {
+          "post": 45
+        }
+      }
+    },
+    {
+      "id": "23",
+      "title": "The Frog and the Ox",
+      "origin": "Aesop, Greece",
+      "cover": "112.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 46
+        },
+        "br": {
+          "post": 47
+        }
+      }
+    },
+    {
+      "id": "24",
+      "title": "The Farmer and the Snake",
+      "origin": "Aesop, Greece",
+      "cover": "117.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 48
+        },
+        "br": {
+          "post": 49
+        }
+      }
+    },
+    {
+      "id": "25",
+      "title": "The Wolf and the Lamb",
+      "origin": "Aesop, Greece",
+      "cover": "122.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 50
+        },
+        "br": {
+          "post": 51
+        }
+      }
+    },
+    {
+      "id": "26",
+      "title": "The Wolf and the Crane",
+      "origin": "Aesop, Greece",
+      "cover": "127.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 52
+        },
+        "br": {
+          "post": 53
+        }
+      }
+    },
+    {
+      "id": "27",
+      "title": "The Dove and the Ant",
+      "origin": "Aesop, Greece",
+      "cover": "132.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 54
+        },
+        "br": {
+          "post": 55
+        }
+      }
+    },
+    {
+      "id": "28",
+      "title": "The Bundle of Sticks",
+      "origin": "Aesop, Greece",
+      "cover": "137.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 56
+        },
+        "br": {
+          "post": 57
+        }
+      }
+    },
+    {
+      "id": "29",
+      "title": "The Oak and the Reed",
+      "origin": "Aesop & La Fontaine",
+      "cover": "142.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 58
+        },
+        "br": {
+          "post": 59
+        }
+      }
+    },
+    {
+      "id": "30",
+      "title": "The Boy and the Nuts",
+      "origin": "Aesop, Greece",
+      "cover": "147.webp",
+      "rev": 1,
+      "audio": {
+        "us": {
+          "post": 60
+        },
+        "br": {
+          "post": 61
+        }
+      }
+    }
+  ]
+}
