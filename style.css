@@ -270,3 +270,7 @@ html[dir="rtl"] .pill .ic { margin-inline-start: -2px; }
 .tour-btns { display: flex; align-items: center; gap: 8px; }
 .tour-btns .btn.sm { margin-top: 0; padding: 0 18px; }
 .tour-skip { color: var(--muted); font-size: 14px; margin-inline-end: auto; padding: 8px 4px; }
+.player .lbl.acc { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px; margin-inline-start: 4px; border-radius: 16px; color: var(--accent); font-weight: 700; flex: 1; justify-content: flex-start; }
+.player .lbl.acc span { font-size: 15px; }
+.player .lbl.acc:active { background: var(--soft); }
+.player .lbl.acc:disabled { color: var(--muted); font-weight: 400; }

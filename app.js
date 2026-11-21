@@ -4,7 +4,7 @@
 const SRC = 'rex4ie/once-upon-a-fable';
 const MIRRORS = [`https://raw.githubusercontent.com/${SRC}/main/content/`, `https://cdn.jsdelivr.net/gh/${SRC}@main/content/`];
 const RELEASES = `https://api.github.com/repos/${SRC}/releases/latest`;
-const CONTACT = { name: 'Ali Asghar Rezaie', instagram: 'rez4ie', email: 'rez4ie@gmail.com' };
+const CONTACT = { name: 'Ali Asghar Rezaie', instagram: 'rez4ie', telegram: 'rez4ie' };
 
 const $ = (s, r = document) => r.querySelector(s);
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
@@ -85,12 +85,12 @@ const TX = {
     tCardsT: 'Flashcards', tCards: 'The new words from the stories you read come here. Review a few every day so you remember them.',
     tSetT: 'Settings', tSet: 'Change the theme, font, text size and the app language here. Inside a story, the Aa button opens the reading settings.',
     tAboutT: 'About', tAbout: 'Check for updates, enter your licence key, or see this guide again.', tAboutWeb: 'Enter your licence key, contact the author, or see this guide again.',
-    tListenT: 'Listen', tListen: 'Tap the headphones to hear the story in an American or British voice. Each sentence lights up as it is read. Play it now to get started!', listenNow: 'Play the story',
+    tListenT: 'Listen', tListen: 'Tap the headphones (or the play button below) to hear the story in an American or British voice. Each sentence lights up as it is read. Play it now to get started!', listenNow: 'Play the story',
     tTypeT: 'Reading settings', tType: 'Change the size, font and colours without leaving the story.',
     tTrT: 'Translation', tTr: 'Show the Persian translation under every paragraph.',
     tWordT: 'New words', tWord: 'Underlined words are new. Tap one to see its meaning and an example.',
     tExT: 'Practice', tEx: 'After reading, do the exercises. Your answers are checked right away.',
-    tPlayT: 'The player', tPlay: 'Pause, go back or forward 5 seconds, or drag the bar. Tap any word in the story to jump to it.',
+    tPlayT: 'The player', tPlay: 'Pause, go back or forward 5 seconds, or drag the bar. Tap American / British to switch the voice. Tap any word in the story to jump to it.', switchAcc: 'Switch between American and British',
     tSpdT: 'Speed', tSpd: 'Tap to make the narrator slower or faster.',
     tPlTgT: 'While listening', tPlTg: 'The page can scroll along with the voice, and show each sentence in Persian as it is read.',
   },
@@ -127,12 +127,12 @@ const TX = {
     tCardsT: 'فلش‌کارت‌ها', tCards: 'واژه‌های تازهٔ داستان‌هایی که می‌خوانید اینجا می‌آیند. هر روز چندتا را مرور کنید تا در یادتان بمانند.',
     tSetT: 'تنظیمات', tSet: 'رنگ، قلم، اندازهٔ متن و زبان برنامه را اینجا تغییر دهید. داخل داستان هم دکمهٔ Aa تنظیمات خواندن را باز می‌کند.',
     tAboutT: 'درباره', tAbout: 'به‌روزرسانی را بررسی کنید، کد لایسنس را وارد کنید یا این راهنما را دوباره ببینید.', tAboutWeb: 'کد لایسنس را وارد کنید، با نویسنده در تماس باشید یا این راهنما را دوباره ببینید.',
-    tListenT: 'گوش دادن', tListen: 'روی هدفون بزنید تا داستان را با صدای آمریکایی یا بریتانیایی بشنوید. هر جمله هنگام خوانده شدن روشن می‌شود. همین حالا پخشش کنید و شروع کنید!', listenNow: 'پخش داستان',
+    tListenT: 'گوش دادن', tListen: 'روی هدفون (یا دکمهٔ پخش پایین صفحه) بزنید تا داستان را با صدای آمریکایی یا بریتانیایی بشنوید. هر جمله هنگام خوانده شدن روشن می‌شود. همین حالا پخشش کنید و شروع کنید!', listenNow: 'پخش داستان',
     tTypeT: 'تنظیمات خواندن', tType: 'اندازه، قلم و رنگ را بدون بیرون رفتن از داستان تغییر دهید.',
     tTrT: 'ترجمه', tTr: 'ترجمهٔ فارسی را زیر هر بند نشان می‌دهد.',
     tWordT: 'واژه‌های تازه', tWord: 'واژه‌های خط‌دار تازه‌اند. روی یکی بزنید تا معنی و مثالش را ببینید.',
     tExT: 'تمرین', tEx: 'پس از خواندن، تمرین‌ها را انجام دهید. پاسخ‌ها همان لحظه بررسی می‌شوند.',
-    tPlayT: 'پخش‌کننده', tPlay: 'توقف، ۵ ثانیه عقب یا جلو، یا نوار را بکشید. روی هر واژهٔ داستان بزنید تا صدا از همان‌جا پخش شود.',
+    tPlayT: 'پخش‌کننده', tPlay: 'توقف، ۵ ثانیه عقب یا جلو، یا نوار را بکشید. با زدن «آمریکایی / بریتانیایی» صدا را عوض کنید. روی هر واژهٔ داستان بزنید تا صدا از همان‌جا پخش شود.', switchAcc: 'تغییر صدا بین آمریکایی و بریتانیایی',
     tSpdT: 'سرعت', tSpd: 'بزنید تا راوی آهسته‌تر یا تندتر بخواند.',
     tPlTgT: 'هنگام گوش دادن', tPlTg: 'صفحه می‌تواند همراه صدا پایین برود و هر جمله را هنگام خوانده شدن به فارسی نشان دهد.',
   },
@@ -301,7 +301,7 @@ function viewLesson(app, id) {
     `<article class="reader"><div class="kicker">${t('lessonN', n)} · <span dir="ltr">${esc(entry.origin)}</span></div><div id="body"><div class="loading"><div class="spin"></div>${t('loadingStory')}</div></div></article>`;
   $('#b-back').onclick = () => App.back();
   $('#b-type').onclick = () => openReadingSheet();
-  $('#b-listen').onclick = () => openListenSheet(entry);
+  $('#b-listen').onclick = () => Player.start(entry, S.accent);
   loadLesson(entry).then(les => {
     if (stack[stack.length - 1].arg !== id) return;
     LESSON = { entry, les, title: [], words: [] };
@@ -339,7 +339,7 @@ function viewLesson(app, id) {
     app.querySelectorAll('.vrow').forEach(b => b.onclick = () => showWord(les.vocab, null, +b.dataset.vi));
     const markRead = () => { if (window.innerHeight + window.scrollY > document.body.scrollHeight - 300 && !read.has(id)) { read.add(id); localStorage.setItem('read', JSON.stringify([...read])); } };
     window.addEventListener('scroll', markRead, { passive: true });
-    Tour.maybe('lesson');
+    if (!$('#player')) Player.idle(entry);
     Tour.maybe('lesson');
   }, () => { $('#body').innerHTML = `<div class="empty">${t('storyFail')}</div>`; });
 }
@@ -376,7 +376,7 @@ const SPEEDS = [0.8, 0.9, 1, 1.1, 1.25];
 const Player = {
   st: null, timer: 0, seq: [], cur: null, lastTouch: 0,
   active() { return !!(this.st && this.st.ready); },
-  async start(entry, acc) {
+  async start(entry, acc, atWord) {
     this.stop();
     const a = entry.audio[acc], rel = `audio/${entry.id}-${acc}-${a.post}.ogg`;
     const st = this.st = { id: entry.id, acc, ready: false, speed: +(localStorage.getItem('speed') || 1) };
@@ -399,10 +399,11 @@ const Player = {
     if (this.st !== st) return;
     this.buildSeq(tm);
     Native.setSpeed(st.speed);
-    Native.play(rel, 0);
+    const from = atWord != null && this.seq.find(x => x[3] === atWord);
+    Native.play(rel, from ? from[0] : 0);
     st.ready = true;
     this.mount(`<div class="top">${btn('pl-rw', I.rewind, t('back5'))}<button class="main" id="pl-pp" aria-label="${t('playPause')}">${I.pause}</button>${btn('pl-ff', I.forward, t('fwd5'))}
-      <div class="lbl">${t(acc + 'Short')}</div><button class="spd" id="pl-sp">${st.speed}×</button>${btn('pl-x', I.close, t('close'))}</div>
+      ${this.accBtn(entry, acc)}<button class="spd" id="pl-sp">${st.speed}×</button>${btn('pl-x', I.close, t('close'))}</div>
       <div class="prog" id="pl-pr"><i></i><b></b><u></u></div><div class="times"><span id="pl-t">0:00</span><span id="pl-d">0:00</span></div>
       <div class="pl-tg"><button class="pill ${S.follow ? 'on' : ''}" id="pl-fo">${t('follow')}</button>${LESSON && LESSON.les.pages.some(p => p.fa) ? `<button class="pill ${S.livefa ? 'on' : ''}" id="pl-fa">${I.translate}${t('livefa')}</button>` : ''}</div>`);
     $('#pl-fo').onclick = () => { S.follow = !S.follow; saveSettings(); $('#pl-fo').classList.toggle('on', S.follow); this.lastTouch = 0; this.tick(true); };
@@ -411,6 +412,7 @@ const Player = {
     $('#pl-rw').onclick = () => Native.seek(Math.max(0, Native.position() - 5000));
     $('#pl-ff').onclick = () => Native.seek(Math.min(Native.duration(), Native.position() + 5000));
     $('#pl-x').onclick = () => this.stop();
+    this.wireAcc(entry, acc, () => { const k = this.cur && this.cur.dataset.k; this.start(entry, S.accent, k != null ? +k : null); });
     $('#pl-sp').onclick = () => { st.speed = SPEEDS[(SPEEDS.indexOf(st.speed) + 1) % SPEEDS.length] || 1; localStorage.setItem('speed', st.speed); Native.setSpeed(st.speed); $('#pl-sp').textContent = st.speed + '×'; };
     const pr = $('#pl-pr');
     const seekAt = e => { const r = pr.getBoundingClientRect(), f = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)); Native.seek(Math.round(f * Native.duration())); this.tick(true); };
@@ -418,7 +420,16 @@ const Player = {
     pr.onpointerup = () => { pr.onpointermove = null; };
     this.timer = setInterval(() => this.tick(), 60);
     Tour.maybe('player');
-    Tour.maybe('player');
+  },
+  accBtn(entry, acc) { const o = acc === 'us' ? 'br' : 'us', can = entry.audio && entry.audio[o]; return `<button class="lbl acc" id="pl-acc" ${can ? '' : 'disabled'} aria-label="${t('switchAcc')}">${t(acc + 'Short')}${can ? '<span>⇄</span>' : ''}</button>`; },
+  wireAcc(entry, acc, then) { $('#pl-acc').onclick = () => { const o = acc === 'us' ? 'br' : 'us'; if (!entry.audio[o]) return; S.accent = o; saveSettings(); then(); }; },
+  // shown on every story page before playing: nothing downloads until play is tapped
+  idle(entry) {
+    this.stop(); if (!entry.audio || !entry.audio[S.accent]) { const o = S.accent === 'us' ? 'br' : 'us'; if (!entry.audio || !entry.audio[o]) return; S.accent = o; }
+    this.mount(`<div class="top"><button class="main" id="pl-pp" aria-label="${t('playPause')}">${I.play}</button>${this.accBtn(entry, S.accent)}${btn('pl-x', I.close, t('close'))}</div>`);
+    $('#pl-pp').onclick = () => this.start(entry, S.accent);
+    $('#pl-x').onclick = () => this.stop();
+    this.wireAcc(entry, S.accent, () => this.idle(entry));
   },
   async loadTiming(entry, acc, post) {
     const rel = `timing/${entry.id}-${acc}.json`;
@@ -547,7 +558,7 @@ function viewAbout(app) {
      <div class="grp"><div class="gl">${t('author')}</div>
        <div style="font:600 18px Literata,Georgia,serif;margin-bottom:6px">${esc(CONTACT.name)}</div>
        <button class="link" id="c-ig">${I.camera}<div class="tx">Instagram<small>@${esc(CONTACT.instagram)}</small></div>${I.chevron}</button>
-       <button class="link" id="c-mail">${I.mail}<div class="tx">${t('email')}<small>${esc(CONTACT.email)}</small></div>${I.chevron}</button></div>
+       <button class="link" id="c-tg">${I.send}<div class="tx">Telegram<small>@${esc(CONTACT.telegram)}</small></div>${I.chevron}</button></div>
      <div class="grp"><div class="gl">${t('app')}</div>
        <button class="link" id="c-guide">${I.info}<div class="tx">${t('guideAgain')}<small>${t('guideAgainSub')}</small></div>${I.chevron}</button>
        ${window.IS_WEB ? '' : `<button class="link" id="c-up">${I.refresh}<div class="tx">${t('checkUpd')}<small id="up-st">${t('verStories', esc(Native.version()), INDEX.version)}</small></div></button>`}
@@ -556,7 +567,7 @@ function viewAbout(app) {
   $('#c-guide').onclick = () => { Tour.reset(); stack.length = 0; App.go('home'); };
   $('#b-back').onclick = () => App.back();
   $('#c-ig').onclick = () => Native.openUrl('https://instagram.com/' + CONTACT.instagram);
-  $('#c-mail').onclick = () => Native.openUrl('mailto:' + CONTACT.email);
+  $('#c-tg').onclick = () => Native.openUrl('https://t.me/' + CONTACT.telegram);
   if ($('#c-up')) $('#c-up').onclick = async () => {
     const st = $('#up-st'); st.textContent = t('checking');
     try {
@@ -771,12 +782,12 @@ function openUnlockSheet() {
     <button class="btn wide" id="k-go">${t('unlock')}</button>
     <p class="sub" style="margin:24px 0 2px">${t('buyHow')}</p>
     <button class="link" id="k-ig">${I.camera}<div class="tx">Instagram<small>@${esc(CONTACT.instagram)}</small></div>${I.chevron}</button>
-    <button class="link" id="k-mail">${I.mail}<div class="tx">${t('email')}<small>${esc(CONTACT.email)}</small></div>${I.chevron}</button>`);
+    <button class="link" id="k-tg">${I.send}<div class="tx">Telegram<small>@${esc(CONTACT.telegram)}</small></div>${I.chevron}</button>`);
   const inp = $('#k-in', sh), msg = $('#k-msg', sh), go = $('#k-go', sh);
   inp.oninput = () => { const p = Lic.pretty(inp.value).slice(0, 14); if (p !== inp.value) inp.value = p; msg.textContent = ''; };
   inp.onkeydown = e => { if (e.key === 'Enter') go.click(); };
   $('#k-ig', sh).onclick = () => Native.openUrl('https://instagram.com/' + CONTACT.instagram);
-  $('#k-mail', sh).onclick = () => Native.openUrl('mailto:' + CONTACT.email);
+  $('#k-tg', sh).onclick = () => Native.openUrl('https://t.me/' + CONTACT.telegram);
   go.onclick = async () => {
     if (!Lic.norm(inp.value)) { inp.focus(); return; }
     go.disabled = true; go.textContent = t('checkingKey'); msg.textContent = '';

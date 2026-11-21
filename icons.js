@@ -22,6 +22,7 @@ window.I = {
   translate: ic('<path d="M4 5.5h9M8.5 4v1.5c0 4-2 7-4.5 8.5M6.5 9.5c1 2 3 3.5 5 4.5"/><path d="M12.5 20l3.8-8.5h.4L20.5 20M13.8 17.5h5.4"/>'),
   cards: ic('<rect x="3.5" y="6.5" width="13" height="14" rx="2"/><path d="M8 3.5h10.5a2 2 0 012 2V17"/>'),
   lock: ic('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),
+  send: ic('<path d="M21 4L3 11l6 2.5M21 4l-4 16-8-6.5M21 4L9 13.5V19l3-3"/>'),
   pencil: ic('<path d="M15 5l4 4L8.5 19.5H4.5v-4z"/><path d="M13 7l4 4"/>'),
   x: ic('<path d="M7 7l10 10M17 7L7 17"/>'),
   follow: ic('<path d="M4 6h16M4 10h10M4 14h16M4 18h8"/>'),
