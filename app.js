@@ -84,7 +84,7 @@ const TX = {
     tStoryT: 'The stories', tStory: 'Tap a story to read it. The first one is free; the others open with a licence key.',
     tCardsT: 'Flashcards', tCards: 'The new words from the stories you read come here. Review a few every day so you remember them.',
     tSetT: 'Settings', tSet: 'Change the theme, font, text size and the app language here.',
-    tAboutT: 'About', tAbout: 'Check for updates, enter your licence key, or see this guide again.',
+    tAboutT: 'About', tAbout: 'Check for updates, enter your licence key, or see this guide again.', tAboutWeb: 'Enter your licence key, contact the author, or see this guide again.',
     tListenT: 'Listen', tListen: 'Tap here to hear the story in an American or British voice. Each sentence lights up as it is read.',
     tTypeT: 'Reading settings', tType: 'Change the size, font and colours without leaving the story.',
     tTrT: 'Translation', tTr: 'Show the Persian translation under every paragraph.',
@@ -126,7 +126,7 @@ const TX = {
     tStoryT: 'داستان‌ها', tStory: 'روی یک داستان بزنید تا آن را بخوانید. داستان اول رایگان است؛ بقیه با کد لایسنس باز می‌شوند.',
     tCardsT: 'فلش‌کارت‌ها', tCards: 'واژه‌های تازهٔ داستان‌هایی که می‌خوانید اینجا می‌آیند. هر روز چندتا را مرور کنید تا در یادتان بمانند.',
     tSetT: 'تنظیمات', tSet: 'رنگ، قلم، اندازهٔ متن و زبان برنامه را اینجا تغییر دهید.',
-    tAboutT: 'درباره', tAbout: 'به‌روزرسانی را بررسی کنید، کد لایسنس را وارد کنید یا این راهنما را دوباره ببینید.',
+    tAboutT: 'درباره', tAbout: 'به‌روزرسانی را بررسی کنید، کد لایسنس را وارد کنید یا این راهنما را دوباره ببینید.', tAboutWeb: 'کد لایسنس را وارد کنید، با نویسنده در تماس باشید یا این راهنما را دوباره ببینید.',
     tListenT: 'گوش دادن', tListen: 'اینجا را بزنید تا داستان را با صدای آمریکایی یا بریتانیایی بشنوید. هر جمله هنگام خوانده شدن روشن می‌شود.',
     tTypeT: 'تنظیمات خواندن', tType: 'اندازه، قلم و رنگ را بدون بیرون رفتن از داستان تغییر دهید.',
     tTrT: 'ترجمه', tTr: 'ترجمهٔ فارسی را زیر هر بند نشان می‌دهد.',
@@ -550,14 +550,14 @@ function viewAbout(app) {
        <button class="link" id="c-mail">${I.mail}<div class="tx">${t('email')}<small>${esc(CONTACT.email)}</small></div>${I.chevron}</button></div>
      <div class="grp"><div class="gl">${t('app')}</div>
        <button class="link" id="c-guide">${I.info}<div class="tx">${t('guideAgain')}<small>${t('guideAgainSub')}</small></div>${I.chevron}</button>
-       <button class="link" id="c-up">${I.refresh}<div class="tx">${t('checkUpd')}<small id="up-st">${t('verStories', esc(Native.version()), INDEX.version)}</small></div></button>
+       ${window.IS_WEB ? '' : `<button class="link" id="c-up">${I.refresh}<div class="tx">${t('checkUpd')}<small id="up-st">${t('verStories', esc(Native.version()), INDEX.version)}</small></div></button>`}
        ${window.IS_WEB ? '' : `<button class="link" id="c-clr">${I.trash}<div class="tx">${t('clear')}<small>${t('mbOnPhone', (size / 1048576).toFixed(1))}</small></div></button>`}</div></div>`;
   $('#c-lic').onclick = () => { if (!Lic.key) openUnlockSheet(); };
   $('#c-guide').onclick = () => { Tour.reset(); stack.length = 0; App.go('home'); };
   $('#b-back').onclick = () => App.back();
   $('#c-ig').onclick = () => Native.openUrl('https://instagram.com/' + CONTACT.instagram);
   $('#c-mail').onclick = () => Native.openUrl('mailto:' + CONTACT.email);
-  $('#c-up').onclick = async () => {
+  if ($('#c-up')) $('#c-up').onclick = async () => {
     const st = $('#up-st'); st.textContent = t('checking');
     try {
       const changed = await refreshIndex();
@@ -840,7 +840,7 @@ const Tour = {
     const show = () => {
       const s = steps[i]; el = s.sel ? $(s.sel) : null;
       if (el && !el.closest('.bar') && !el.closest('#player')) el.scrollIntoView({ block: 'center' });
-      card.innerHTML = `<small>${t('stepOf', i + 1, steps.length)}</small><b>${t(s.k + 'T')}</b><p>${t(s.k)}</p>
+      card.innerHTML = `<small>${t('stepOf', i + 1, steps.length)}</small><b>${t(s.k + 'T')}</b><p>${t(window.IS_WEB && s.k === 'tAbout' ? 'tAboutWeb' : s.k)}</p>
         <div class="tour-btns"><button class="tour-skip" id="tr-skip">${i < steps.length - 1 ? t('skip') : ''}</button>
         ${i ? `<button class="btn ghost sm" id="tr-prev">${t('prev')}</button>` : ''}<button class="btn sm" id="tr-next">${i === steps.length - 1 ? t('done') : t('next')}</button></div>`;
       $('#tr-skip', card).onclick = end;
