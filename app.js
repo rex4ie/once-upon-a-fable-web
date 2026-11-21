@@ -97,7 +97,7 @@ const imgJobs = {};
 function imageSrc(name) {
   const rel = 'img/' + name;
   if (Native.exists(rel)) return Promise.resolve(dataUrl(rel));
-  if (!HAS_NATIVE) return Promise.resolve(location.hostname === 'localhost' ? '/img/' + name : MIRRORS[0] + 'images/' + name);
+  if (!HAS_NATIVE || window.IS_WEB) return Promise.resolve(location.hostname === 'localhost' ? '/img/' + name : MIRRORS[0] + 'images/' + name);
   return imgJobs[name] || (imgJobs[name] = (async () => {
     for (const base of MIRRORS) { try { await Bridge.call('download', base + 'images/' + encodeURIComponent(name), rel); return dataUrl(rel); } catch (e) {} }
     delete imgJobs[name]; throw new Error('offline');
