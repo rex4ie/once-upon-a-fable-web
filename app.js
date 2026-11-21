@@ -85,7 +85,7 @@ const TX = {
     tCardsT: 'Flashcards', tCards: 'The new words from the stories you read come here. Review a few every day so you remember them.',
     tSetT: 'Settings', tSet: 'Change the theme, font, text size and the app language here. Inside a story, the Aa button opens the reading settings.',
     tAboutT: 'About', tAbout: 'Check for updates, enter your licence key, or see this guide again.', tAboutWeb: 'Enter your licence key, contact the author, or see this guide again.',
-    tListenT: 'Listen', tListen: 'Tap here to hear the story in an American or British voice. Each sentence lights up as it is read.',
+    tListenT: 'Listen', tListen: 'Tap the headphones to hear the story in an American or British voice. Each sentence lights up as it is read. Play it now to get started!', listenNow: 'Play the story',
     tTypeT: 'Reading settings', tType: 'Change the size, font and colours without leaving the story.',
     tTrT: 'Translation', tTr: 'Show the Persian translation under every paragraph.',
     tWordT: 'New words', tWord: 'Underlined words are new. Tap one to see its meaning and an example.',
@@ -127,7 +127,7 @@ const TX = {
     tCardsT: 'فلش‌کارت‌ها', tCards: 'واژه‌های تازهٔ داستان‌هایی که می‌خوانید اینجا می‌آیند. هر روز چندتا را مرور کنید تا در یادتان بمانند.',
     tSetT: 'تنظیمات', tSet: 'رنگ، قلم، اندازهٔ متن و زبان برنامه را اینجا تغییر دهید. داخل داستان هم دکمهٔ Aa تنظیمات خواندن را باز می‌کند.',
     tAboutT: 'درباره', tAbout: 'به‌روزرسانی را بررسی کنید، کد لایسنس را وارد کنید یا این راهنما را دوباره ببینید.', tAboutWeb: 'کد لایسنس را وارد کنید، با نویسنده در تماس باشید یا این راهنما را دوباره ببینید.',
-    tListenT: 'گوش دادن', tListen: 'اینجا را بزنید تا داستان را با صدای آمریکایی یا بریتانیایی بشنوید. هر جمله هنگام خوانده شدن روشن می‌شود.',
+    tListenT: 'گوش دادن', tListen: 'روی هدفون بزنید تا داستان را با صدای آمریکایی یا بریتانیایی بشنوید. هر جمله هنگام خوانده شدن روشن می‌شود. همین حالا پخشش کنید و شروع کنید!', listenNow: 'پخش داستان',
     tTypeT: 'تنظیمات خواندن', tType: 'اندازه، قلم و رنگ را بدون بیرون رفتن از داستان تغییر دهید.',
     tTrT: 'ترجمه', tTr: 'ترجمهٔ فارسی را زیر هر بند نشان می‌دهد.',
     tWordT: 'واژه‌های تازه', tWord: 'واژه‌های خط‌دار تازه‌اند. روی یکی بزنید تا معنی و مثالش را ببینید.',
@@ -805,7 +805,7 @@ function chooseLanguage() {
 }
 const TOURS = {
   home: [{ k: 'tWelcome' }, { sel: '.list .row', k: 'tStory' }, { sel: '#b-cards', k: 'tCards' }, { sel: '#b-set', k: 'tSet' }, { sel: '#b-about', k: 'tAbout' }],
-  lesson: [{ sel: '#b-listen', k: 'tListen' }, { sel: '#t-full', k: 'tTr' }, { sel: '.story .w.v', k: 'tWord' }, { sel: '#b-ex', k: 'tEx' }],
+  lesson: [{ sel: '#t-full', k: 'tTr' }, { sel: '.story .w.v', k: 'tWord' }, { sel: '#b-ex', k: 'tEx' }, { sel: '#b-listen', k: 'tListen', top: true, act: 'listenNow', go: () => $('#b-listen').click() }],
   player: [{ sel: '#player .top', k: 'tPlay' }, { sel: '#pl-sp', k: 'tSpd' }, { sel: '.pl-tg', k: 'tPlTg' }],
 };
 const Tour = {
@@ -818,7 +818,7 @@ const Tour = {
     if (this.on || this.seen()[n]) return;
     const steps = TOURS[n].filter(s => !s.sel || $(s.sel)); if (!steps.length) return;
     this.on = true; this.mark(n);
-    const y0 = window.scrollY, ov = document.createElement('div');
+    const ov = document.createElement('div');
     ov.className = 'tour'; ov.innerHTML = '<div class="tour-hole"></div><div class="tour-card" role="dialog" aria-live="polite"></div>';
     document.body.appendChild(ov);
     const hole = ov.firstChild, card = ov.lastChild;
@@ -835,17 +835,17 @@ const Tour = {
         card.style.top = Math.max(16, (H - card.offsetHeight) / 2) + 'px';
       }
     };
-    const tick = setInterval(() => place(), 250);
-    const end = () => { clearInterval(tick); ov.remove(); this.on = false; window.removeEventListener('resize', place); if (n === 'lesson') smoothTo(y0); };
+    let alive = true; const loop = () => { if (!alive) return; place(); requestAnimationFrame(loop); }; requestAnimationFrame(loop);
+    const end = () => { alive = false; ov.remove(); this.on = false; window.removeEventListener('resize', place); if (n === 'lesson') smoothTo(0); };
     const show = () => {
       const s = steps[i]; el = s.sel ? $(s.sel) : null;
-      if (el && !el.closest('.bar') && !el.closest('#player')) el.scrollIntoView({ block: 'center' });
+      if (s.top) smoothTo(0); else if (el && !el.closest('.bar') && !el.closest('#player')) { const r = el.getBoundingClientRect(), H = window.innerHeight; if (r.top < 70 || r.bottom > H * 0.5) smoothTo(window.scrollY + r.top - H * 0.3); }
       card.innerHTML = `<small>${t('stepOf', i + 1, steps.length)}</small><b>${t(s.k + 'T')}</b><p>${t(window.IS_WEB && s.k === 'tAbout' ? 'tAboutWeb' : s.k)}</p>
         <div class="tour-btns"><button class="tour-skip" id="tr-skip">${i < steps.length - 1 ? t('skip') : ''}</button>
-        ${i ? `<button class="btn ghost sm" id="tr-prev">${t('prev')}</button>` : ''}<button class="btn sm" id="tr-next">${i === steps.length - 1 ? t('done') : t('next')}</button></div>`;
+        ${i ? `<button class="btn ghost sm" id="tr-prev">${t('prev')}</button>` : ''}<button class="btn sm" id="tr-next">${s.act ? t(s.act) : i === steps.length - 1 ? t('done') : t('next')}</button></div>`;
       $('#tr-skip', card).onclick = end;
       if ($('#tr-prev', card)) $('#tr-prev', card).onclick = () => { i--; show(); };
-      $('#tr-next', card).onclick = () => { if (++i >= steps.length) end(); else show(); };
+      $('#tr-next', card).onclick = () => { const go = s.go; if (++i >= steps.length) { end(); if (go) go(); } else show(); };
       place(); requestAnimationFrame(place);
     };
     window.addEventListener('resize', place);
