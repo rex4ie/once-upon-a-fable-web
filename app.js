@@ -43,16 +43,108 @@ async function remoteJSON(path) {
 async function bundledJSON(path) { const r = await fetch('content/' + path); if (!r.ok) throw new Error('missing'); return r.json(); }
 
 /* ---------- Settings ---------- */
-const DEF = { theme: 'light', font: 'literata', size: 19, lh: 1.7, margin: 'normal', photos: true, vocab: true, follow: true, livefa: false, accent: 'us', hlword: false, fullfa: false, newPerDay: 10 };
+const DEF = { lang: 'fa', theme: 'light', font: 'literata', size: 19, lh: 1.7, margin: 'normal', photos: true, vocab: true, follow: true, livefa: false, accent: 'us', hlword: false, fullfa: false, newPerDay: 10 };
 const FONTS = { literata: ['Literata', 'Literata, Georgia, serif'], atkinson: ['Atkinson', 'Atkinson, sans-serif'], serif: ['Serif', 'Georgia, "Noto Serif", serif'], sans: ['Sans', 'system-ui, Roboto, sans-serif'] };
 const THEMES = { light: ['White', '#FFFFFF', '#1C1B19', false], paper: ['Reading', '#F6F0E4', '#2E2A24', false], dark: ['Dark', '#1E1F21', '#E6E3DE', true], black: ['Black', '#000000', '#D9D6D0', true] };
 const MARGINS = { narrow: 14, normal: 22, wide: 34 };
+
+/* ---------- Interface language (English / Persian). Story text is always English. ---------- */
+const TX = {
+  en: {
+    appName: 'Once Upon a Fable', fablesN: n => `${n} classic fables to read and listen to`, read: 'Read', settings: 'Settings', about: 'About', back: 'Back', close: 'Close',
+    flashcards: 'Flashcards', reviewNew: 'Review the new words', deckSt: (d, f) => `${d} to review · ${f} new today`,
+    lessonN: n => `Lesson ${n}`, readingSettings: 'Reading settings', listen: 'Listen', loadingStory: 'Loading the story', showTr: 'Show translation', moral: 'Moral', newWords: 'New words',
+    practice: 'Practice', practiceSub: 'Exercises for this story', storyFail: 'This story could not be loaded. Check your internet connection and try again.',
+    listenT: 'Listen to the story', listenSub: 'Choose a voice. The words light up as the narrator reads.', us: 'American English', usSub: 'US accent', br: 'British English', brSub: 'UK accent', saved: 'Saved on this phone',
+    getting: a => `Getting the ${a === 'us' ? 'American' : 'British'} narration`, audioFail: 'Could not get the audio. Check your internet connection.', usShort: 'American', brShort: 'British',
+    back5: 'Back 5 seconds', fwd5: 'Forward 5 seconds', playPause: 'Play or pause', follow: 'Scroll with narration', livefa: 'Translate with narration',
+    theme: 'Theme', font: 'Font', size: 'Text size', lh: 'Line spacing', margins: 'Margins', narrow: 'Narrow', normal: 'Normal', wide: 'Wide', language: 'App language',
+    th_light: 'White', th_paper: 'Reading', th_dark: 'Dark', th_black: 'Black',
+    photos: 'Pictures', photosSub: 'Show the pictures in the stories', vocab: 'Underline new words', vocabSub: 'Tap an underlined word to see its meaning',
+    hlword: 'Highlight word by word', hlwordSub: 'Off: the whole sentence is highlighted while it is read', followSub: 'Scroll the page along with the audio', livefaSub: 'Show each sentence in Persian as it is read',
+    applyNow: 'Changes apply right away.', sample: 'Long ago, in a green <span class="w v">meadow</span>, there lived a hare. He was the fastest animal in the forest.',
+    updAvail: v => `Version ${v} is available`, youHave: v => `You have version ${v}.`, later: 'Later', update: 'Update', downloading: 'Downloading', allowInstall: 'Allow installing updates for this app, then tap Update again.', dlFail: 'The download failed. Check your internet connection.',
+    aboutText: 'Classic fables for English learners, with Persian meanings and narration in American and British English.', author: 'Author', app: 'App', email: 'Email',
+    checkUpd: 'Check for updates', verStories: (v, s) => `Version ${v} · Stories ${s}`, checking: 'Checking', storiesUpd: 'Stories updated. The app is up to date.', latest: v => `You have the latest version (${v})`, checkFail: 'Could not check. Check your internet connection.',
+    clear: 'Remove downloaded audio and pictures', mbOnPhone: m => `${m} MB on this phone`, removed: 'Downloads removed', guideAgain: 'Show the guide again', guideAgainSub: 'A short tour of the app',
+    loading: 'Loading', exFail: 'The exercises could not be loaded. Check your internet connection.', exIntro: 'Answer the questions. Each answer is checked right away.', score: (r, t) => `${r} of ${t} correct`,
+    correct: 'Correct', correctAns: 'Correct answer: ', tfT: 'True or false', tfH: 'Is each sentence true or false for the story?', True: 'True', False: 'False',
+    ordT: 'Put in order', ordH: 'Tap the events in the order they happened.', again: 'Start again', shouldBe: n => `Should be ${n}`, scrT: 'Make the sentence', scrH: 'Tap the words in the right order.',
+    gapT: 'Fill the gap', gapH: 'Choose the word that fits.', mT: 'Match the meaning', mH: 'Choose the meaning of each word.', spT: 'Right or wrong', spH: 'Is the word in bold used correctly?', Right: 'Right', Wrong: 'Wrong',
+    cardsOpt: 'Flashcard settings', perDay: 'How many new words to learn each day.', reset: 'Reset progress', resetSub: 'Start all flashcards from the beginning', resetDone: 'Progress reset',
+    preparing: 'Preparing your cards', allDone: 'All done for now', comeBack: 'Come back tomorrow for more reviews and new words.', noWords: 'No words yet.', toReview: n => `${n} to review`, nNew: n => `${n} new`,
+    review: 'Review', newWord: 'New word', showAns: 'Show answer', g1: 'Again', g2: 'Hard', g3: 'Good', g4: 'Easy',
+    // licence
+    locked: 'Locked', free: 'Free', unlockT: 'Unlock all the stories', unlockSub: n => `The first story is free. Enter your licence key to open all ${n} stories, their audio, exercises and flashcards.`,
+    keyPh: 'XXXX-XXXX-XXXX', unlock: 'Unlock', checkingKey: 'Checking', badKey: 'This licence key is not valid. Check it and try again.', keyOffline: 'Could not check the key. Connect to the internet and try again.',
+    unlocked: 'All stories are unlocked. Enjoy!', buyHow: 'No key yet? Get one from the author:', licence: 'Licence', licOn: k => `Unlocked · ${k}`, licOff: 'Only the first story is open', enterKey: 'Enter licence key',
+    // first run + tour
+    next: 'Next', prev: 'Back', skip: 'Skip', done: 'Got it', stepOf: (i, n) => `${i} of ${n}`,
+    tWelcomeT: 'Welcome!', tWelcome: 'Here is a short tour. It shows you how to read, listen, change the settings and practise.',
+    tStoryT: 'The stories', tStory: 'Tap a story to read it. The first one is free; the others open with a licence key.',
+    tCardsT: 'Flashcards', tCards: 'The new words from the stories you read come here. Review a few every day so you remember them.',
+    tSetT: 'Settings', tSet: 'Change the theme, font, text size and the app language here.',
+    tAboutT: 'About', tAbout: 'Check for updates, enter your licence key, or see this guide again.',
+    tListenT: 'Listen', tListen: 'Tap here to hear the story in an American or British voice. Each sentence lights up as it is read.',
+    tTypeT: 'Reading settings', tType: 'Change the size, font and colours without leaving the story.',
+    tTrT: 'Translation', tTr: 'Show the Persian translation under every paragraph.',
+    tWordT: 'New words', tWord: 'Underlined words are new. Tap one to see its meaning and an example.',
+    tExT: 'Practice', tEx: 'After reading, do the exercises. Your answers are checked right away.',
+    tPlayT: 'The player', tPlay: 'Pause, go back or forward 5 seconds, or drag the bar. Tap any word in the story to jump to it.',
+    tSpdT: 'Speed', tSpd: 'Tap to make the narrator slower or faster.',
+    tPlTgT: 'While listening', tPlTg: 'The page can scroll along with the voice, and show each sentence in Persian as it is read.',
+  },
+  fa: {
+    appName: 'Once Upon a Fable', fablesN: n => `${n} داستان کلاسیک برای خواندن و شنیدن`, read: 'خوانده شده', settings: 'تنظیمات', about: 'درباره', back: 'برگشت', close: 'بستن',
+    flashcards: 'فلش‌کارت‌ها', reviewNew: 'مرور واژه‌های تازه', deckSt: (d, f) => `${d} برای مرور · ${f} واژهٔ تازهٔ امروز`,
+    lessonN: n => `درس ${n}`, readingSettings: 'تنظیمات خواندن', listen: 'گوش دادن', loadingStory: 'در حال بارگذاری داستان', showTr: 'نمایش ترجمه', moral: 'نتیجهٔ اخلاقی', newWords: 'واژه‌های تازه',
+    practice: 'تمرین', practiceSub: 'تمرین‌های این داستان', storyFail: 'داستان بارگذاری نشد. اتصال اینترنت را بررسی کنید و دوباره امتحان کنید.',
+    listenT: 'گوش دادن به داستان', listenSub: 'یک صدا انتخاب کنید. هنگام خواندن راوی، جمله‌ها روشن می‌شوند.', us: 'انگلیسی آمریکایی', usSub: 'لهجهٔ آمریکایی', br: 'انگلیسی بریتانیایی', brSub: 'لهجهٔ بریتانیایی', saved: 'روی گوشی ذخیره شده',
+    getting: a => `در حال دریافت صدای ${a === 'us' ? 'آمریکایی' : 'بریتانیایی'}`, audioFail: 'صدا دریافت نشد. اتصال اینترنت را بررسی کنید.', usShort: 'آمریکایی', brShort: 'بریتانیایی',
+    back5: '۵ ثانیه عقب', fwd5: '۵ ثانیه جلو', playPause: 'پخش یا توقف', follow: 'پیمایش همراه صدا', livefa: 'ترجمه همراه صدا',
+    theme: 'رنگ', font: 'قلم', size: 'اندازهٔ متن', lh: 'فاصلهٔ خطوط', margins: 'حاشیه', narrow: 'کم', normal: 'معمولی', wide: 'زیاد', language: 'زبان برنامه',
+    th_light: 'سفید', th_paper: 'کاغذی', th_dark: 'تیره', th_black: 'سیاه',
+    photos: 'تصاویر', photosSub: 'نمایش تصاویر داستان‌ها', vocab: 'خط زیر واژه‌های تازه', vocabSub: 'روی واژهٔ خط‌دار بزنید تا معنی‌اش را ببینید',
+    hlword: 'برجسته کردن واژه به واژه', hlwordSub: 'خاموش: هنگام خواندن، کل جمله برجسته می‌شود', followSub: 'صفحه همراه صدا پایین می‌رود', livefaSub: 'هر جمله هنگام خوانده شدن به فارسی نشان داده می‌شود',
+    applyNow: 'تغییرات بی‌درنگ اعمال می‌شوند.', sample: 'Long ago, in a green <span class="w v">meadow</span>, there lived a hare. He was the fastest animal in the forest.',
+    updAvail: v => `نسخهٔ ${v} آماده است`, youHave: v => `نسخهٔ شما ${v} است.`, later: 'بعداً', update: 'به‌روزرسانی', downloading: 'در حال دانلود', allowInstall: 'اجازهٔ نصب به‌روزرسانی را برای این برنامه بدهید و دوباره «به‌روزرسانی» را بزنید.', dlFail: 'دانلود انجام نشد. اتصال اینترنت را بررسی کنید.',
+    aboutText: 'داستان‌های کلاسیک برای زبان‌آموزان انگلیسی، با معنی فارسی و صدای راوی آمریکایی و بریتانیایی.', author: 'نویسنده', app: 'برنامه', email: 'ایمیل',
+    checkUpd: 'بررسی به‌روزرسانی', verStories: (v, s) => `نسخهٔ ${v} · داستان‌ها ${s}`, checking: 'در حال بررسی', storiesUpd: 'داستان‌ها به‌روز شدند. برنامه به‌روز است.', latest: v => `آخرین نسخه را دارید (${v})`, checkFail: 'بررسی انجام نشد. اتصال اینترنت را بررسی کنید.',
+    clear: 'پاک کردن صداها و تصاویر دانلودشده', mbOnPhone: m => `${m} مگابایت روی این گوشی`, removed: 'دانلودها پاک شدند', guideAgain: 'نمایش دوبارهٔ راهنما', guideAgainSub: 'آشنایی کوتاه با برنامه',
+    loading: 'در حال بارگذاری', exFail: 'تمرین‌ها بارگذاری نشدند. اتصال اینترنت را بررسی کنید.', exIntro: 'به پرسش‌ها پاسخ دهید. هر پاسخ همان لحظه بررسی می‌شود.', score: (r, t) => `${r} از ${t} درست`,
+    correct: 'درست است', correctAns: 'پاسخ درست: ', tfT: 'درست یا نادرست', tfH: 'هر جمله با داستان درست است یا نادرست؟', True: 'درست', False: 'نادرست',
+    ordT: 'مرتب کنید', ordH: 'رویدادها را به ترتیبی که رخ دادند بزنید.', again: 'از نو', shouldBe: n => `باید ${n} باشد`, scrT: 'جمله بسازید', scrH: 'واژه‌ها را به ترتیب درست بزنید.',
+    gapT: 'جای خالی', gapH: 'واژهٔ مناسب را انتخاب کنید.', mT: 'معنی را پیدا کنید', mH: 'معنی هر واژه را انتخاب کنید.', spT: 'درست یا نادرست', spH: 'آیا واژهٔ پررنگ درست به کار رفته است؟', Right: 'درست', Wrong: 'نادرست',
+    cardsOpt: 'تنظیمات فلش‌کارت', perDay: 'هر روز چند واژهٔ تازه یاد بگیرید.', reset: 'شروع دوباره', resetSub: 'همهٔ فلش‌کارت‌ها از اول', resetDone: 'پیشرفت پاک شد',
+    preparing: 'در حال آماده کردن کارت‌ها', allDone: 'فعلاً تمام شد', comeBack: 'فردا برای مرور و واژه‌های تازه برگردید.', noWords: 'هنوز واژه‌ای نیست.', toReview: n => `${n} برای مرور`, nNew: n => `${n} تازه`,
+    review: 'مرور', newWord: 'واژهٔ تازه', showAns: 'نمایش پاسخ', g1: 'دوباره', g2: 'سخت', g3: 'خوب', g4: 'آسان',
+    locked: 'قفل', free: 'رایگان', unlockT: 'باز کردن همهٔ داستان‌ها', unlockSub: n => `داستان اول رایگان است. کد لایسنس خود را وارد کنید تا هر ${n} داستان، صداها، تمرین‌ها و فلش‌کارت‌ها باز شوند.`,
+    keyPh: 'XXXX-XXXX-XXXX', unlock: 'باز کردن', checkingKey: 'در حال بررسی', badKey: 'این کد لایسنس معتبر نیست. آن را بررسی کنید و دوباره امتحان کنید.', keyOffline: 'کد بررسی نشد. به اینترنت وصل شوید و دوباره امتحان کنید.',
+    unlocked: 'همهٔ داستان‌ها باز شدند. لذت ببرید!', buyHow: 'کد ندارید؟ از نویسنده تهیه کنید:', licence: 'لایسنس', licOn: k => `فعال · ${k}`, licOff: 'فقط داستان اول باز است', enterKey: 'وارد کردن کد لایسنس',
+    next: 'بعدی', prev: 'قبلی', skip: 'رد شدن', done: 'متوجه شدم', stepOf: (i, n) => `${i} از ${n}`,
+    tWelcomeT: 'خوش آمدید!', tWelcome: 'یک راهنمای کوتاه: خواندن، گوش دادن، تغییر تنظیمات و تمرین کردن را نشانتان می‌دهد.',
+    tStoryT: 'داستان‌ها', tStory: 'روی یک داستان بزنید تا آن را بخوانید. داستان اول رایگان است؛ بقیه با کد لایسنس باز می‌شوند.',
+    tCardsT: 'فلش‌کارت‌ها', tCards: 'واژه‌های تازهٔ داستان‌هایی که می‌خوانید اینجا می‌آیند. هر روز چندتا را مرور کنید تا در یادتان بمانند.',
+    tSetT: 'تنظیمات', tSet: 'رنگ، قلم، اندازهٔ متن و زبان برنامه را اینجا تغییر دهید.',
+    tAboutT: 'درباره', tAbout: 'به‌روزرسانی را بررسی کنید، کد لایسنس را وارد کنید یا این راهنما را دوباره ببینید.',
+    tListenT: 'گوش دادن', tListen: 'اینجا را بزنید تا داستان را با صدای آمریکایی یا بریتانیایی بشنوید. هر جمله هنگام خوانده شدن روشن می‌شود.',
+    tTypeT: 'تنظیمات خواندن', tType: 'اندازه، قلم و رنگ را بدون بیرون رفتن از داستان تغییر دهید.',
+    tTrT: 'ترجمه', tTr: 'ترجمهٔ فارسی را زیر هر بند نشان می‌دهد.',
+    tWordT: 'واژه‌های تازه', tWord: 'واژه‌های خط‌دار تازه‌اند. روی یکی بزنید تا معنی و مثالش را ببینید.',
+    tExT: 'تمرین', tEx: 'پس از خواندن، تمرین‌ها را انجام دهید. پاسخ‌ها همان لحظه بررسی می‌شوند.',
+    tPlayT: 'پخش‌کننده', tPlay: 'توقف، ۵ ثانیه عقب یا جلو، یا نوار را بکشید. روی هر واژهٔ داستان بزنید تا صدا از همان‌جا پخش شود.',
+    tSpdT: 'سرعت', tSpd: 'بزنید تا راوی آهسته‌تر یا تندتر بخواند.',
+    tPlTgT: 'هنگام گوش دادن', tPlTg: 'صفحه می‌تواند همراه صدا پایین برود و هر جمله را هنگام خوانده شدن به فارسی نشان دهد.',
+  },
+};
+const t = (k, ...a) => { const v = (TX[S.lang] || TX.en)[k] ?? TX.en[k]; return typeof v === 'function' ? v(...a) : v; };
 let S = { ...DEF };
 try { Object.assign(S, JSON.parse(localStorage.getItem('settings') || '{}')); } catch (e) {}
 function saveSettings() { try { localStorage.setItem('settings', JSON.stringify(S)); } catch (e) {} applySettings(); }
 function applySettings() {
   const root = document.documentElement, th = THEMES[S.theme] || THEMES.light;
   root.dataset.theme = S.theme;
+  root.lang = S.lang; root.dir = S.lang === 'fa' ? 'rtl' : 'ltr';
   root.style.setProperty('--ff', FONTS[S.font][1]);
   root.style.setProperty('--fs', S.size + 'px');
   root.style.setProperty('--lh', S.lh);
@@ -184,26 +276,29 @@ const btn = (id, icon, label, cls = '') => `<button class="ibtn ${cls}" id="${id
 /* ---------- Home ---------- */
 function viewHome(app) {
   const L = INDEX.lessons;
-  app.innerHTML = bar('Once Upon a Fable', '<div style="width:6px"></div>', btn('b-set', I.sliders, 'Settings') + btn('b-about', I.info, 'About')) +
-    `<header class="home-head"><h1>Once Upon a Fable</h1><p>${L.length} classic fables to read and listen to</p></header>
-     <button class="deck" id="b-cards">${I.cards}<div class="tx">Flashcards<small id="deck-st">Review the new words</small></div>${I.chevron}</button>
+  app.innerHTML = bar(t('appName'), '<div style="width:6px"></div>', btn('b-set', I.sliders, t('settings')) + btn('b-about', I.info, t('about'))) +
+    `<header class="home-head"><h1>Once Upon a Fable</h1><p>${t('fablesN', L.length)}</p></header>
+     <button class="deck" id="b-cards">${I.cards}<div class="tx">${t('flashcards')}<small id="deck-st">${t('reviewNew')}</small></div>${I.chevron}</button>
      <ul class="list">${L.map((l, i) => `<li class="row" data-id="${l.id}"><span class="n">${pad(i + 1)}</span>
-       <div class="tx"><b>${esc(l.title)}</b><span>${esc(l.origin)}${read.has(l.id) ? ' · Read' : ''}</span></div>
-       ${S.photos && l.cover ? `<div class="th" data-bg="${esc(l.cover)}"></div>` : ''}</li>`).join('')}</ul>`;
+       <div class="tx"><b>${esc(l.title)}</b><span>${esc(l.origin)}${read.has(l.id) ? ' · ' + t('read') : ''}</span></div>
+       ${isLocked(l) ? `<span class="lock">${I.lock}</span>` : ''}${S.photos && l.cover ? `<div class="th" data-bg="${esc(l.cover)}"></div>` : ''}</li>`).join('')}</ul>`;
   $('#b-set').onclick = () => App.go('settings');
   $('#b-about').onclick = () => App.go('about');
   $('#b-cards').onclick = () => App.go('cards');
-  SRS.counts().then(c => { const el = $('#deck-st'); if (el) el.textContent = c.total ? `${c.due} to review · ${c.fresh} new today` : 'Review the new words'; });
-  app.querySelectorAll('.row').forEach(r => r.onclick = () => App.go('lesson', r.dataset.id));
+  SRS.counts().then(c => { const el = $('#deck-st'); if (el) el.textContent = c.total ? t('deckSt', c.due, c.fresh) : t('reviewNew'); });
+  app.querySelectorAll('.row').forEach(r => r.onclick = () => { const l = INDEX.lessons.find(x => x.id === r.dataset.id); if (isLocked(l)) openUnlockSheet(); else App.go('lesson', l.id); });
+  if (!Lic.key) { const ul = document.createElement('button'); ul.className = 'deck unlock-cta'; ul.id = 'b-unlock'; ul.innerHTML = `${I.lock}<div class="tx">${t('unlockT')}<small>${t('enterKey')}</small></div>${I.chevron}`; ul.onclick = () => openUnlockSheet(); $('#b-cards').after(ul); }
   fillImages(app);
+  Tour.maybe('home');
 }
 
 /* ---------- Lesson ---------- */
 let LESSON = null;
 function viewLesson(app, id) {
   const entry = INDEX.lessons.find(l => l.id === id), n = INDEX.lessons.indexOf(entry) + 1;
-  app.innerHTML = bar(entry.title, btn('b-back', I.back, 'Back'), btn('b-type', I.type, 'Reading settings') + btn('b-listen', I.headphones, 'Listen', 'accent')) +
-    `<article class="reader"><div class="kicker">Lesson ${n} · ${esc(entry.origin)}</div><div id="body"><div class="loading"><div class="spin"></div>Loading the story</div></div></article>`;
+  if (isLocked(entry)) { stack.pop(); render(); openUnlockSheet(); return; }
+  app.innerHTML = bar(entry.title, btn('b-back', I.back, t('back')), btn('b-type', I.type, t('readingSettings')) + btn('b-listen', I.headphones, t('listen'), 'accent')) +
+    `<article class="reader"><div class="kicker">${t('lessonN', n)} · <span dir="ltr">${esc(entry.origin)}</span></div><div id="body"><div class="loading"><div class="spin"></div>${t('loadingStory')}</div></div></article>`;
   $('#b-back').onclick = () => App.back();
   $('#b-type').onclick = () => openReadingSheet();
   $('#b-listen').onclick = () => openListenSheet(entry);
@@ -222,12 +317,12 @@ function viewLesson(app, id) {
         return `<p>${html}${rest ? ' ' + rest : ''}</p>` + (fa.length ? `<p class="fa tr">${esc(fa.join(' '))}</p>` : '');
       }).join('')).join('');
     const hasFa = les.pages.some(p => p.fa);
-    $('#body').innerHTML = `<h1>${tt}</h1>
-      ${hasFa ? `<div class="pills"><button class="pill ${S.fullfa ? 'on' : ''}" id="t-full">${I.translate}Show translation</button></div>` : ''}
-      <div class="story">${pages}</div>
-      <div class="moral"><small>Moral</small><p>${esc(les.moral)}</p></div>
-      <div class="vocab-list"><h2>New words</h2>${les.vocab.map((v, i) => `<button class="vrow" data-vi="${i}"><b>${esc(v.w)}</b><span class="fa">${esc(v.fa)}</span></button>`).join('')}</div>
-      ${les.ex ? `<button class="practice" id="b-ex">${I.pencil}<div class="tx">Practice<small>Exercises for this story</small></div>${I.chevron}</button>` : ''}`;
+    $('#body').innerHTML = `<h1 dir="ltr">${tt}</h1>
+      ${hasFa ? `<div class="pills"><button class="pill ${S.fullfa ? 'on' : ''}" id="t-full">${I.translate}${t('showTr')}</button></div>` : ''}
+      <div class="story" dir="ltr">${pages}</div>
+      <div class="moral"><small>${t('moral')}</small><p dir="ltr">${esc(les.moral)}</p></div>
+      <div class="vocab-list"><h2>${t('newWords')}</h2>${les.vocab.map((v, i) => `<button class="vrow" data-vi="${i}"><b dir="ltr">${esc(v.w)}</b><span class="fa">${esc(v.fa)}</span></button>`).join('')}</div>
+      ${les.ex ? `<button class="practice" id="b-ex">${I.pencil}<div class="tx">${t('practice')}<small>${t('practiceSub')}</small></div>${I.chevron}</button>` : ''}`;
     LESSON.title = [...app.querySelectorAll('h1 .w')];
     LESSON.words = [...app.querySelectorAll('.story .w')];
     fillImages(app);
@@ -244,14 +339,16 @@ function viewLesson(app, id) {
     app.querySelectorAll('.vrow').forEach(b => b.onclick = () => showWord(les.vocab, null, +b.dataset.vi));
     const markRead = () => { if (window.innerHeight + window.scrollY > document.body.scrollHeight - 300 && !read.has(id)) { read.add(id); localStorage.setItem('read', JSON.stringify([...read])); } };
     window.addEventListener('scroll', markRead, { passive: true });
-  }, () => { $('#body').innerHTML = `<div class="empty">This story could not be loaded. Check your internet connection and try again.</div>`; });
+    Tour.maybe('lesson');
+    Tour.maybe('lesson');
+  }, () => { $('#body').innerHTML = `<div class="empty">${t('storyFail')}</div>`; });
 }
 function showWord(vocab, key, idx) {
   const k = (key || '').toLowerCase();
   const v = idx != null ? vocab[idx] : vocab.find(x => x.w.toLowerCase() === k) || vocab.find(x => k.startsWith(x.w.toLowerCase()));
   if (!v) return;
-  openSheet(`<div class="vsheet"><div class="w1">${esc(v.w)}</div><div class="en">${esc(v.en)}</div><div class="fa">${esc(v.fa)}</div>
-    <blockquote>${esc(v.s)}<div class="fa">${esc(v.sfa)}</div></blockquote></div>`);
+  openSheet(`<div class="vsheet"><div class="w1" dir="ltr">${esc(v.w)}</div><div class="en" dir="ltr">${esc(v.en)}</div><div class="fa">${esc(v.fa)}</div>
+    <blockquote><div dir="ltr">${esc(v.s)}</div><div class="fa">${esc(v.sfa)}</div></blockquote></div>`);
 }
 
 /* ---------- Sheets ---------- */
@@ -267,10 +364,10 @@ function openListenSheet(entry) {
   const opt = (acc, name, sub) => {
     const a = entry.audio && entry.audio[acc];
     const saved = a && !window.IS_WEB && Native.exists(`audio/${entry.id}-${acc}-${a.post}.ogg`);
-    return `<button class="choice" data-acc="${acc}" ${a ? '' : 'disabled style="opacity:.4"'}>${I.headphones}<div class="tx">${name}<small>${sub}${saved ? ' · Saved on this phone' : ''}</small></div>${S.accent === acc ? I.check : ''}</button>`;
+    return `<button class="choice" data-acc="${acc}" ${a ? '' : 'disabled style="opacity:.4"'}>${I.headphones}<div class="tx">${name}<small>${sub}${saved ? ' · ' + t('saved') : ''}</small></div>${S.accent === acc ? I.check : ''}</button>`;
   };
-  const sh = openSheet(`<h3>Listen to the story</h3><p class="sub">Choose a voice. The words light up as the narrator reads.</p>
-    ${opt('us', 'American English', 'US accent')}${opt('br', 'British English', 'UK accent')}`);
+  const sh = openSheet(`<h3>${t('listenT')}</h3><p class="sub">${t('listenSub')}</p>
+    ${opt('us', t('us'), t('usSub'))}${opt('br', t('br'), t('brSub'))}`);
   sh.querySelectorAll('.choice').forEach(b => b.onclick = () => { S.accent = b.dataset.acc; saveSettings(); closeSheet(); Player.start(entry, b.dataset.acc); });
 }
 
@@ -283,7 +380,7 @@ const Player = {
     this.stop();
     const a = entry.audio[acc], rel = `audio/${entry.id}-${acc}-${a.post}.ogg`;
     const st = this.st = { id: entry.id, acc, ready: false, speed: +(localStorage.getItem('speed') || 1) };
-    this.mount(`<div class="loading"><div class="spin"></div><span id="pl-msg">Getting the ${acc === 'us' ? 'American' : 'British'} narration</span></div>`);
+    this.mount(`<div class="loading"><div class="spin"></div><span id="pl-msg">${t('getting', acc)}</span></div>`);
     const timing = this.loadTiming(entry, acc, a.post);
     try {
       if (!Native.exists(rel)) {
@@ -294,20 +391,20 @@ const Player = {
       }
     } catch (e) {
       if (this.st !== st) return;
-      this.mount(`<div class="loading" style="justify-content:space-between"><span>Could not get the audio. Check your internet connection.</span>${btn('pl-x', I.close, 'Close')}</div>`);
+      this.mount(`<div class="loading" style="justify-content:space-between"><span>${t('audioFail')}</span>${btn('pl-x', I.close, t('close'))}</div>`);
       $('#pl-x').onclick = () => this.stop(); return;
     }
     if (this.st !== st) return;
-    const t = await timing;
+    const tm = await timing;
     if (this.st !== st) return;
-    this.buildSeq(t);
+    this.buildSeq(tm);
     Native.setSpeed(st.speed);
     Native.play(rel, 0);
     st.ready = true;
-    this.mount(`<div class="top">${btn('pl-rw', I.rewind, 'Back 5 seconds')}<button class="main" id="pl-pp" aria-label="Play or pause">${I.pause}</button>${btn('pl-ff', I.forward, 'Forward 5 seconds')}
-      <div class="lbl">${acc === 'us' ? 'American' : 'British'}</div><button class="spd" id="pl-sp">${st.speed}×</button>${btn('pl-x', I.close, 'Close')}</div>
+    this.mount(`<div class="top">${btn('pl-rw', I.rewind, t('back5'))}<button class="main" id="pl-pp" aria-label="${t('playPause')}">${I.pause}</button>${btn('pl-ff', I.forward, t('fwd5'))}
+      <div class="lbl">${t(acc + 'Short')}</div><button class="spd" id="pl-sp">${st.speed}×</button>${btn('pl-x', I.close, t('close'))}</div>
       <div class="prog" id="pl-pr"><i></i><b></b><u></u></div><div class="times"><span id="pl-t">0:00</span><span id="pl-d">0:00</span></div>
-      <div class="pl-tg"><button class="pill ${S.follow ? 'on' : ''}" id="pl-fo">Scroll with narration</button>${LESSON && LESSON.les.pages.some(p => p.fa) ? `<button class="pill ${S.livefa ? 'on' : ''}" id="pl-fa">${I.translate}Translate with narration</button>` : ''}</div>`);
+      <div class="pl-tg"><button class="pill ${S.follow ? 'on' : ''}" id="pl-fo">${t('follow')}</button>${LESSON && LESSON.les.pages.some(p => p.fa) ? `<button class="pill ${S.livefa ? 'on' : ''}" id="pl-fa">${I.translate}${t('livefa')}</button>` : ''}</div>`);
     $('#pl-fo').onclick = () => { S.follow = !S.follow; saveSettings(); $('#pl-fo').classList.toggle('on', S.follow); this.lastTouch = 0; this.tick(true); };
     if ($('#pl-fa')) $('#pl-fa').onclick = () => { S.livefa = !S.livefa; saveSettings(); $('#pl-fa').classList.toggle('on', S.livefa); if (this.curS) this.showLive(this.curS); };
     $('#pl-pp').onclick = () => { if (Native.playing()) { Native.pause(); } else { Native.resume(); } this.tick(true); };
@@ -320,6 +417,8 @@ const Player = {
     pr.onpointerdown = e => { pr.setPointerCapture(e.pointerId); seekAt(e); pr.onpointermove = seekAt; };
     pr.onpointerup = () => { pr.onpointermove = null; };
     this.timer = setInterval(() => this.tick(), 60);
+    Tour.maybe('player');
+    Tour.maybe('player');
   },
   async loadTiming(entry, acc, post) {
     const rel = `timing/${entry.id}-${acc}.json`;
@@ -367,7 +466,7 @@ const Player = {
     sent.after(box);
     box.classList.remove('in'); void box.offsetWidth; box.classList.add('in');
   },
-  mount(html) { let p = $('#player'); if (!p) { p = document.createElement('div'); p.id = 'player'; p.className = 'player'; document.body.appendChild(p); } p.innerHTML = html; },
+  mount(html) { let p = $('#player'); if (!p) { p = document.createElement('div'); p.id = 'player'; p.className = 'player'; p.dir = 'ltr'; document.body.appendChild(p); } p.innerHTML = html; },
   onEnded() { this.tick(true); if (this.curS) this.curS.classList.remove('on'); this.curS = null; if (this.cur) { this.cur.classList.remove('on'); this.cur = null; } const pp = $('#pl-pp'); if (pp) { pp._p = false; pp.innerHTML = I.play; } },
   stop() { clearInterval(this.timer); if (this.curS) this.curS.classList.remove('on'); this.curS = null; const lf = $('#live-fa'); if (lf) lf.remove(); Native.stop(); if (this.cur) this.cur.classList.remove('on'); this.cur = null; this.st = null; this.seq = []; const p = $('#player'); if (p) p.remove(); },
 };
@@ -386,28 +485,30 @@ function smoothTo(y) {
 
 /* ---------- Settings ---------- */
 function controls(onChange) {
+  const tr = t;
   const seg = (key, opts) => `<div class="seg" data-key="${key}">${Object.entries(opts).map(([v, l]) => `<button data-v="${v}" class="${String(S[key]) === v ? 'on' : ''}">${l}</button>`).join('')}</div>`;
   const tog = (key, name, sub) => `<button class="toggle" data-tog="${key}"><span>${name}${sub ? `<small>${sub}</small>` : ''}</span><span class="sw ${S[key] ? 'on' : ''}"></span></button>`;
   const html = `
-    <div class="grp"><div class="gl">Theme</div><div class="swatches">${Object.entries(THEMES).map(([k, t]) => `<button class="swatch ${S.theme === k ? 'on' : ''}" data-theme-v="${k}" style="background:${t[1]};color:${t[2]}">${t[0]}</button>`).join('')}</div></div>
-    <div class="grp"><div class="gl">Font</div>${seg('font', Object.fromEntries(Object.entries(FONTS).map(([k, f]) => [k, `<span style="font-family:${f[1].replace(/"/g, "'")}">${f[0]}</span>`])))}</div>
-    <div class="grp"><label>Text size</label><div class="range"><input type="range" min="14" max="28" step="1" value="${S.size}" data-r="size"><span>${S.size}</span></div></div>
-    <div class="grp"><label>Line spacing</label><div class="range"><input type="range" min="1.3" max="2.3" step="0.1" value="${S.lh}" data-r="lh"><span>${S.lh}</span></div></div>
-    <div class="grp"><div class="gl">Margins</div>${seg('margin', { narrow: 'Narrow', normal: 'Normal', wide: 'Wide' })}</div>
-    <div class="grp">${tog('photos', 'Pictures', 'Show the pictures in the stories')}${tog('vocab', 'Underline new words', 'Tap an underlined word to see its meaning')}${tog('hlword', 'Highlight word by word', 'Off: the whole sentence is highlighted while it is read')}${tog('follow', 'Scroll with narration', 'Scroll the page along with the audio')}${tog('livefa', 'Translate with narration', 'Show each sentence in Persian as it is read')}</div>`;
+    <div class="grp"><div class="gl">${t('language')}</div>${seg('lang', { fa: 'فارسی', en: 'English' })}</div>
+    <div class="grp"><div class="gl">${t('theme')}</div><div class="swatches">${Object.entries(THEMES).map(([k, t]) => `<button class="swatch ${S.theme === k ? 'on' : ''}" data-theme-v="${k}" style="background:${t[1]};color:${t[2]}">${tr('th_' + k)}</button>`).join('')}</div></div>
+    <div class="grp"><div class="gl">${tr('font')}</div>${seg('font', Object.fromEntries(Object.entries(FONTS).map(([k, f]) => [k, `<span style="font-family:${f[1].replace(/"/g, "'")}">${f[0]}</span>`])))}</div>
+    <div class="grp"><label>${tr('size')}</label><div class="range"><input type="range" min="14" max="28" step="1" value="${S.size}" data-r="size"><span>${S.size}</span></div></div>
+    <div class="grp"><label>${tr('lh')}</label><div class="range"><input type="range" min="1.3" max="2.3" step="0.1" value="${S.lh}" data-r="lh"><span>${S.lh}</span></div></div>
+    <div class="grp"><div class="gl">${tr('margins')}</div>${seg('margin', { narrow: tr('narrow'), normal: tr('normal'), wide: tr('wide') })}</div>
+    <div class="grp">${['photos', 'vocab', 'hlword', 'follow', 'livefa'].map(k => tog(k, tr(k), tr(k + 'Sub'))).join('')}</div>`;
   const wire = root => {
     root.querySelectorAll('[data-theme-v]').forEach(b => b.onclick = () => { S.theme = b.dataset.themeV; root.querySelectorAll('[data-theme-v]').forEach(x => x.classList.toggle('on', x === b)); saveSettings(); onChange && onChange(); });
-    root.querySelectorAll('.seg').forEach(sg => sg.querySelectorAll('button').forEach(b => b.onclick = () => { S[sg.dataset.key] = b.dataset.v; sg.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); saveSettings(); onChange && onChange(); }));
+    root.querySelectorAll('.seg').forEach(sg => sg.querySelectorAll('button').forEach(b => b.onclick = () => { S[sg.dataset.key] = b.dataset.v; sg.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); saveSettings(); if (sg.dataset.key === 'lang') { closeSheet(); render(window.scrollY); return; } onChange && onChange(); }));
     root.querySelectorAll('[data-r]').forEach(r => r.oninput = () => { S[r.dataset.r] = +r.value; r.nextElementSibling.textContent = r.value; saveSettings(); onChange && onChange(); });
     root.querySelectorAll('[data-tog]').forEach(b => b.onclick = () => { const k = b.dataset.tog; S[k] = !S[k]; b.querySelector('.sw').classList.toggle('on', S[k]); saveSettings(); if (k === 'photos') fillImages(document); onChange && onChange(); });
   };
   return { html, wire };
 }
-function openReadingSheet() { const c = controls(); const sh = openSheet(`<h3>Reading settings</h3><p class="sub">Changes apply right away.</p>${c.html}`); c.wire(sh); }
+function openReadingSheet() { const c = controls(); const sh = openSheet(`<h3>${t('readingSettings')}</h3><p class="sub">${t('applyNow')}</p>${c.html}`); c.wire(sh); }
 function viewSettings(app) {
   const c = controls(() => fillImages(app));
-  app.innerHTML = bar('Settings', btn('b-back', I.back, 'Back'), '') +
-    `<div class="page"><h1>Settings</h1><div class="preview reader" style="padding:14px 16px;margin:0 0 26px"><div class="story"><p>Long ago, in a green <span class="w v">meadow</span>, there lived a hare. He was the fastest animal in the forest.</p></div></div>${c.html}</div>`;
+  app.innerHTML = bar(t('settings'), btn('b-back', I.back, t('back')), '') +
+    `<div class="page"><h1>${t('settings')}</h1><div class="preview reader" style="padding:14px 16px;margin:0 0 26px"><div class="story" dir="ltr"><p>${t('sample')}</p></div></div>${c.html}</div>`;
   $('#b-back').onclick = () => App.back();
   c.wire(app);
 }
@@ -422,73 +523,78 @@ async function checkUpdate() {
   return UPDATE;
 }
 function openUpdateSheet(u) {
-  const sh = openSheet(`<h3>Version ${esc(u.v)} is available</h3><p class="sub">You have version ${esc(Native.version())}.</p>
+  const sh = openSheet(`<h3>${t('updAvail', esc(u.v))}</h3><p class="sub">${t('youHave', esc(Native.version()))}</p>
     ${u.notes ? `<div class="notes">${esc(u.notes)}</div>` : ''}
-    <div class="btns"><button class="btn ghost" id="u-later">Later</button><button class="btn" id="u-go">${I.download}Update</button></div>`);
+    <div class="btns"><button class="btn ghost" id="u-later">${t('later')}</button><button class="btn" id="u-go">${I.download}${t('update')}</button></div>`);
   $('#u-later').onclick = closeSheet;
   $('#u-go').onclick = async () => {
-    const go = $('#u-go'); go.disabled = true; go.textContent = 'Downloading';
-    Bridge.onprogress = p => { go.textContent = `Downloading ${p}%`; };
+    const go = $('#u-go'); go.disabled = true; go.textContent = t('downloading');
+    Bridge.onprogress = p => { go.textContent = `${t('downloading')} ${p}%`; };
     try { await Bridge.call('installUpdate', u.url); closeSheet(); }
     catch (e) {
-      go.disabled = false; go.innerHTML = I.download + 'Update';
-      toast(e.message === 'permission' ? 'Allow installing updates for this app, then tap Update again.' : 'The download failed. Check your internet connection.');
+      go.disabled = false; go.innerHTML = I.download + t('update');
+      toast(e.message === 'permission' ? t('allowInstall') : t('dlFail'));
     }
   };
 }
 function viewAbout(app) {
   const size = Native.cacheSize();
-  app.innerHTML = bar('About', btn('b-back', I.back, 'Back'), '') +
+  app.innerHTML = bar(t('about'), btn('b-back', I.back, t('back')), '') +
     `<div class="page"><div class="about-mark">${I.book}</div><h1 style="margin-bottom:6px">Once Upon a Fable</h1>
-     <p style="margin:0 0 24px;color:var(--muted)">Classic fables for English learners, with Persian meanings and narration in American and British English.</p>
-     <div class="grp"><div class="gl">Author</div>
+     <p style="margin:0 0 24px;color:var(--muted)">${t('aboutText')}</p>
+     <div class="grp"><div class="gl">${t('licence')}</div>
+       <button class="link" id="c-lic">${I.lock}<div class="tx">${Lic.key ? t('licence') : t('enterKey')}<small dir="auto">${Lic.key ? t('licOn', esc(Lic.key)) : t('licOff')}</small></div>${Lic.key ? '' : I.chevron}</button></div>
+     <div class="grp"><div class="gl">${t('author')}</div>
        <div style="font:600 18px Literata,Georgia,serif;margin-bottom:6px">${esc(CONTACT.name)}</div>
        <button class="link" id="c-ig">${I.camera}<div class="tx">Instagram<small>@${esc(CONTACT.instagram)}</small></div>${I.chevron}</button>
-       <button class="link" id="c-mail">${I.mail}<div class="tx">Email<small>${esc(CONTACT.email)}</small></div>${I.chevron}</button></div>
-     <div class="grp"><div class="gl">App</div>
-       <button class="link" id="c-up">${I.refresh}<div class="tx">Check for updates<small id="up-st">Version ${esc(Native.version())} · Stories ${INDEX.version}</small></div></button>
-       <button class="link" id="c-clr">${I.trash}<div class="tx">Remove downloaded audio and pictures<small>${(size / 1048576).toFixed(1)} MB on this phone</small></div></button></div></div>`;
+       <button class="link" id="c-mail">${I.mail}<div class="tx">${t('email')}<small>${esc(CONTACT.email)}</small></div>${I.chevron}</button></div>
+     <div class="grp"><div class="gl">${t('app')}</div>
+       <button class="link" id="c-guide">${I.info}<div class="tx">${t('guideAgain')}<small>${t('guideAgainSub')}</small></div>${I.chevron}</button>
+       <button class="link" id="c-up">${I.refresh}<div class="tx">${t('checkUpd')}<small id="up-st">${t('verStories', esc(Native.version()), INDEX.version)}</small></div></button>
+       ${window.IS_WEB ? '' : `<button class="link" id="c-clr">${I.trash}<div class="tx">${t('clear')}<small>${t('mbOnPhone', (size / 1048576).toFixed(1))}</small></div></button>`}</div></div>`;
+  $('#c-lic').onclick = () => { if (!Lic.key) openUnlockSheet(); };
+  $('#c-guide').onclick = () => { Tour.reset(); stack.length = 0; App.go('home'); };
   $('#b-back').onclick = () => App.back();
   $('#c-ig').onclick = () => Native.openUrl('https://instagram.com/' + CONTACT.instagram);
   $('#c-mail').onclick = () => Native.openUrl('mailto:' + CONTACT.email);
   $('#c-up').onclick = async () => {
-    const st = $('#up-st'); st.textContent = 'Checking';
+    const st = $('#up-st'); st.textContent = t('checking');
     try {
       const changed = await refreshIndex();
       const u = await checkUpdate();
-      if (u) { st.textContent = `Version ${u.v} is available`; openUpdateSheet(u); }
-      else st.textContent = changed ? 'Stories updated. The app is up to date.' : `You have the latest version (${Native.version()})`;
-    } catch (e) { st.textContent = 'Could not check. Check your internet connection.'; }
+      if (u) { st.textContent = t('updAvail', u.v); openUpdateSheet(u); }
+      else st.textContent = changed ? t('storiesUpd') : t('latest', Native.version());
+    } catch (e) { st.textContent = t('checkFail'); }
   };
-  $('#c-clr').onclick = () => { Native.remove('audio'); Native.remove('img'); Object.keys(imgJobs).forEach(k => delete imgJobs[k]); toast('Downloads removed'); render(window.scrollY); };
+  if ($('#c-clr')) if ($('#c-clr')) $('#c-clr').onclick = () => { Native.remove('audio'); Native.remove('img'); Object.keys(imgJobs).forEach(k => delete imgJobs[k]); toast(t('removed')); render(window.scrollY); };
 }
 
 /* ---------- Exercises (checked on the spot) ---------- */
 function seeded(seed) { let s = (Math.imul(seed >>> 0 || 1, 2654435761) >>> 0) || 1; return () => { s ^= s << 13; s >>>= 0; s ^= s >> 17; s ^= s << 5; s >>>= 0; return s / 4294967296; }; }
 function shuffled(a, seed) { const r = seeded(seed), b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
 function shuffledDiff(a, seed) { let b, k = 0; do { b = shuffled(a, seed + k * 101); k++; } while (k < 20 && a.length > 1 && b.join('|') === a.join('|')); return b; }
-const fb = (ok, right) => `<div class="fb ${ok ? 'ok' : 'bad'}">${ok ? I.check + 'Correct' : I.x + 'Correct answer: ' + esc(right)}</div>`;
+const fb = (ok, right) => `<div class="fb ${ok ? 'ok' : 'bad'}">${ok ? I.check + t('correct') : I.x + t('correctAns') + `<span dir="ltr">${esc(right)}</span>`}</div>`;
 
 function viewExercises(app, id) {
   const entry = INDEX.lessons.find(l => l.id === id), seed = parseInt(id, 10) * 7919;
-  app.innerHTML = bar('Practice', btn('b-back', I.back, 'Back'), '') + `<div class="page ex"><div class="kicker">${esc(entry.title)}</div><h1>Practice</h1><div id="ex-body"><div class="loading"><div class="spin"></div>Loading</div></div></div>`;
+  app.innerHTML = bar(t('practice'), btn('b-back', I.back, t('back')), '') + `<div class="page ex"><div class="kicker" dir="ltr">${esc(entry.title)}</div><h1>${t('practice')}</h1><div id="ex-body"><div class="loading"><div class="spin"></div>${t('loading')}</div></div></div>`;
   $('#b-back').onclick = () => App.back();
   loadLesson(entry).then(les => {
     const ex = les.ex, B = $('#ex-body');
     const score = { right: 0, total: 0 };
-    const tally = ok => { score.total++; if (ok) score.right++; const s = $('#ex-score'); if (s) s.textContent = `${score.right} of ${score.total} correct`; };
+    const tally = ok => { score.total++; if (ok) score.right++; const s = $('#ex-score'); if (s) s.textContent = t('score', score.right, score.total); };
     const sec = (L, title, help, body) => `<section class="exs"><div class="exh"><span>${L}</span><div><b>${title}</b><small>${help}</small></div></div>${body}</section>`;
     const order = shuffledDiff(ex.order, seed + 1);
     const defs = shuffled(ex.match, seed + 2);
     const vfor = w => les.vocab.find(v => v.w === w) || { w, en: w };
-    B.innerHTML = `<p class="sub" id="ex-score">Answer the questions. Each answer is checked right away.</p>` +
-      sec('A', 'True or false', 'Is each sentence true or false for the story?', ex.tf.map((q, i) => `<div class="q" data-tf="${i}"><p>${esc(q[0])}</p><div class="opts"><button data-a="1">True</button><button data-a="0">False</button></div></div>`).join('')) +
-      sec('B', 'Put in order', 'Tap the events in the order they happened.', `<div class="ord">${order.map(s => `<button class="oi" data-s="${esc(s)}"><span class="num"></span><span>${esc(s)}</span></button>`).join('')}</div><div class="ord-fb"></div><button class="btn ghost sm" id="ord-reset">${I.refresh}Start again</button>`) +
-      sec('C', 'Make the sentence', 'Tap the words in the right order.', ex.scramble.map((s, i) => { const words = s.replace(/[.!?]$/, '').split(/\s+/);
-        return `<div class="q scr" data-sc="${i}"><div class="built"></div><div class="chips">${shuffledDiff(words, seed + 10 + i).map((w, j) => `<button class="chip" data-j="${j}">${esc(w)}</button>`).join('')}</div><div class="scr-fb"></div></div>`; }).join('')) +
-      sec('D', 'Fill the gap', 'Choose the word that fits.', ex.gap.items.map((q, i) => `<div class="q" data-gap="${i}"><p>${esc(q).replace('___', '<span class="gap">______</span>')}</p><div class="opts wrap">${ex.gap.bank.slice().sort().map(w => `<button data-a="${esc(w)}">${esc(w)}</button>`).join('')}</div></div>`).join('')) +
-      sec('E', 'Match the meaning', 'Choose the meaning of each word.', ex.match.map((w, i) => `<div class="q" data-m="${i}"><p><b>${esc(w)}</b></p><div class="opts col">${defs.map(d => `<button data-a="${esc(d)}">${esc(vfor(d).en)}</button>`).join('')}</div></div>`).join('')) +
-      sec('F', 'Right or wrong', 'Is the word in bold used correctly?', ex.spot.map((q, i) => `<div class="q" data-sp="${i}"><p>${esc(q[0]).replace(/\*([^*]+)\*/, '<b>$1</b>')}</p><div class="opts"><button data-a="1">Right</button><button data-a="0">Wrong</button></div></div>`).join(''));
+    B.innerHTML = `<p class="sub" id="ex-score">${t('exIntro')}</p>` +
+      sec('A', t('tfT'), t('tfH'), ex.tf.map((q, i) => `<div class="q" data-tf="${i}"><p dir="ltr">${esc(q[0])}</p><div class="opts"><button data-a="1">${t('True')}</button><button data-a="0">${t('False')}</button></div></div>`).join('')) +
+      sec('B', t('ordT'), t('ordH'), `<div class="ord" dir="ltr">${order.map(s => `<button class="oi" data-s="${esc(s)}"><span class="num"></span><span>${esc(s)}</span></button>`).join('')}</div><div class="ord-fb"></div><button class="btn ghost sm" id="ord-reset">${I.refresh}${t('again')}</button>`) +
+      sec('C', t('scrT'), t('scrH'), ex.scramble.map((s, i) => { const words = s.replace(/[.!?]$/, '').split(/\s+/);
+        return `<div class="q scr" data-sc="${i}" dir="ltr"><div class="built"></div><div class="chips">${shuffledDiff(words, seed + 10 + i).map((w, j) => `<button class="chip" data-j="${j}">${esc(w)}</button>`).join('')}</div><div class="scr-fb"></div></div>`; }).join('')) +
+      sec('D', t('gapT'), t('gapH'), ex.gap.items.map((q, i) => `<div class="q" data-gap="${i}" dir="ltr"><p>${esc(q).replace('___', '<span class="gap">______</span>')}</p><div class="opts wrap">${ex.gap.bank.slice().sort().map(w => `<button data-a="${esc(w)}">${esc(w)}</button>`).join('')}</div></div>`).join('')) +
+      sec('E', t('mT'), t('mH'), ex.match.map((w, i) => `<div class="q" data-m="${i}" dir="ltr"><p><b>${esc(w)}</b></p><div class="opts col">${defs.map(d => `<button data-a="${esc(d)}">${esc(vfor(d).en)}</button>`).join('')}</div></div>`).join('')) +
+      sec('F', t('spT'), t('spH'), ex.spot.map((q, i) => `<div class="q" data-sp="${i}"><p dir="ltr">${esc(q[0]).replace(/\*([^*]+)\*/, '<b>$1</b>')}</p><div class="opts"><button data-a="1">${t('Right')}</button><button data-a="0">${t('Wrong')}</button></div></div>`).join(''));
 
     // single-choice questions: lock after the first answer, show feedback
     const single = (sel, rightOf, label) => B.querySelectorAll(sel).forEach(q => q.querySelectorAll('.opts button').forEach(b => b.onclick = () => {
@@ -499,10 +605,10 @@ function viewExercises(app, id) {
       const g = q.querySelector('.gap'); if (g) { g.textContent = right; g.classList.add(ok ? 'right' : 'wrong'); }
       q.insertAdjacentHTML('beforeend', fb(ok, label(q, right))); tally(ok);
     }));
-    single('[data-tf]', q => ex.tf[q.dataset.tf][1] ? '1' : '0', (q, r) => r === '1' ? 'True' : 'False');
+    single('[data-tf]', q => ex.tf[q.dataset.tf][1] ? '1' : '0', (q, r) => r === '1' ? t('True') : t('False'));
     single('[data-gap]', q => ex.gap.bank[q.dataset.gap], (q, r) => r);
     single('[data-m]', q => ex.match[q.dataset.m], (q, r) => vfor(r).en);
-    single('[data-sp]', q => ex.spot[q.dataset.sp][1] ? '1' : '0', (q, r) => r === '1' ? 'Right' : 'Wrong');
+    single('[data-sp]', q => ex.spot[q.dataset.sp][1] ? '1' : '0', (q, r) => r === '1' ? t('Right') : t('Wrong'));
 
     // ordering
     let picked = [];
@@ -515,7 +621,7 @@ function viewExercises(app, id) {
       let good = 0;
       picked.forEach((x, i) => { const ri = ex.order.indexOf(x.dataset.s), ok = ri === i; if (ok) good++;
         x.classList.add(ok ? 'right' : 'wrong'); x.disabled = true;
-        if (!ok) x.insertAdjacentHTML('beforeend', `<small class="cor">Should be ${ri + 1}</small>`); });
+        if (!ok) x.insertAdjacentHTML('beforeend', `<small class="cor">${t('shouldBe', ri + 1)}</small>`); });
       B.querySelector('.ord-fb').innerHTML = fb(good === ordItems.length, ex.order.map((s, i) => `${i + 1}. ${s}`).join('  '));
       tally(good === ordItems.length);
     });
@@ -537,7 +643,7 @@ function viewExercises(app, id) {
         else { out.push(c); built.appendChild(c); check(); }
       });
     });
-  }, () => { $('#ex-body').innerHTML = `<div class="empty">The exercises could not be loaded. Check your internet connection.</div>`; });
+  }, () => { $('#ex-body').innerHTML = `<div class="empty">${t('exFail')}</div>`; });
 }
 
 /* ---------- Flashcards: spaced repetition in the style of Anki (SM-2) ---------- */
@@ -551,7 +657,7 @@ const SRS = {
   async all() {
     if (this.words) return this.words;
     const out = [];
-    for (const [i, e] of INDEX.lessons.entries()) { try { const les = await loadLesson(e); les.vocab.forEach(v => out.push({ key: e.id + ':' + v.w, n: i + 1, ...v })); } catch (err) {} }
+    for (const [i, e] of INDEX.lessons.entries()) { if (isLocked(e)) continue; try { const les = await loadLesson(e); les.vocab.forEach(v => out.push({ key: e.id + ':' + v.w, n: i + 1, ...v })); } catch (err) {} }
     return (this.words = out);
   },
   async counts() {
@@ -600,37 +706,162 @@ const SRS = {
 };
 
 function viewCards(app) {
-  app.innerHTML = bar('Flashcards', btn('b-back', I.back, 'Back'), btn('b-opt', I.sliders, 'Flashcard settings')) + `<div class="page cards"><h1>Flashcards</h1><div id="cd"><div class="loading"><div class="spin"></div>Preparing your cards</div></div></div>`;
+  app.innerHTML = bar(t('flashcards'), btn('b-back', I.back, t('back')), btn('b-opt', I.sliders, t('cardsOpt'))) + `<div class="page cards"><h1>${t('flashcards')}</h1><div id="cd"><div class="loading"><div class="spin"></div>${t('preparing')}</div></div></div>`;
   $('#b-back').onclick = () => App.back();
   $('#b-opt').onclick = () => {
-    const sh = openSheet(`<h3>Flashcards</h3><p class="sub">How many new words to learn each day.</p>
+    const sh = openSheet(`<h3>${t('flashcards')}</h3><p class="sub">${t('perDay')}</p>
       <div class="seg" id="npd">${[5, 10, 15, 20, 30].map(n => `<button data-v="${n}" class="${S.newPerDay === n ? 'on' : ''}">${n}</button>`).join('')}</div>
-      <button class="link" id="srs-reset" style="margin-top:18px">${I.trash}<div class="tx">Reset progress<small>Start all flashcards from the beginning</small></div></button>`);
+      <button class="link" id="srs-reset" style="margin-top:18px">${I.trash}<div class="tx">${t('reset')}<small>${t('resetSub')}</small></div></button>`);
     sh.querySelectorAll('#npd button').forEach(b => b.onclick = () => { S.newPerDay = +b.dataset.v; saveSettings(); closeSheet(); show(); });
-    $('#srs-reset').onclick = () => { localStorage.removeItem('srs'); localStorage.removeItem('srsday'); closeSheet(); toast('Progress reset'); show(); };
+    $('#srs-reset').onclick = () => { localStorage.removeItem('srs'); localStorage.removeItem('srsday'); closeSheet(); toast(t('resetDone')); show(); };
   };
   const show = async () => {
     const box = $('#cd'); if (!box) return;
     const w = await SRS.next(), c = await SRS.counts();
-    if (!w) { box.innerHTML = `<div class="done-card">${I.check}<h2>All done for now</h2><p>${c.total ? 'Come back tomorrow for more reviews and new words.' : 'No words yet.'}</p></div>`; return; }
+    if (!w) { box.innerHTML = `<div class="done-card">${I.check}<h2>${t('allDone')}</h2><p>${c.total ? t('comeBack') : t('noWords')}</p></div>`; return; }
     const st = SRS.load()[w.key];
     const sent = esc(w.s).replace(new RegExp('\\b(' + w.w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\w*)', 'i'), '<b>$1</b>');
-    box.innerHTML = `<div class="cstat"><span>${c.due} to review</span><span>${c.fresh} new</span></div>
-      <div class="card"><small>${st ? 'Review' : 'New word'} · Lesson ${w.n}</small><div class="cw">${esc(w.w)}</div><p class="cs">${sent}</p>
-        <div class="back" hidden><div class="ce">${esc(w.en)}</div><div class="fa cf">${esc(w.fa)}</div><div class="fa cfs">${esc(w.sfa)}</div></div></div>
-      <button class="btn wide" id="c-show">Show answer</button>
-      <div class="grades" hidden>${[['Again', 1], ['Hard', 2], ['Good', 3], ['Easy', 4]].map(([l, g]) => `<button data-g="${g}"><b>${l}</b><small>${SRS.label(SRS.schedule(st, g))}</small></button>`).join('')}</div>`;
+    box.innerHTML = `<div class="cstat"><span>${t('toReview', c.due)}</span><span>${t('nNew', c.fresh)}</span></div>
+      <div class="card"><small>${st ? t('review') : t('newWord')} · ${t('lessonN', w.n)}</small><div class="cw" dir="ltr">${esc(w.w)}</div><p class="cs" dir="ltr">${sent}</p>
+        <div class="back" hidden><div class="ce" dir="ltr">${esc(w.en)}</div><div class="fa cf">${esc(w.fa)}</div><div class="fa cfs">${esc(w.sfa)}</div></div></div>
+      <button class="btn wide" id="c-show">${t('showAns')}</button>
+      <div class="grades" hidden>${[[t('g1'), 1], [t('g2'), 2], [t('g3'), 3], [t('g4'), 4]].map(([l, g]) => `<button data-g="${g}"><b>${l}</b><small>${SRS.label(SRS.schedule(st, g))}</small></button>`).join('')}</div>`;
     $('#c-show').onclick = () => { box.querySelector('.back').hidden = false; $('#c-show').hidden = true; box.querySelector('.grades').hidden = false; };
     box.querySelectorAll('.grades button').forEach(b => b.onclick = () => { SRS.answer(w, +b.dataset.g); show(); });
   };
   show();
 }
 
+/* ---------- Licence: the first story is free, a key opens the rest ----------
+   content/licences.json holds only salted SHA-256 hashes of the keys, so the list cannot be turned back into keys. */
+const LIC_SALT = 'once-upon-a-fable:v1:';
+const Lic = {
+  key: null,
+  load() { try { this.key = localStorage.getItem('licence') || Native.readText('licence.txt') || null; } catch (e) { this.key = null; } },
+  norm: k => String(k || '').toUpperCase().replace(/[^A-Z0-9]/g, ''),
+  pretty(k) { return (this.norm(k).match(/.{1,4}/g) || []).join('-'); },
+  async hash(k) {
+    const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(LIC_SALT + this.norm(k)));
+    return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('').slice(0, 20);
+  },
+  async list() {
+    try { const l = await remoteJSON('licences.json'); Native.writeText('content/licences.json', JSON.stringify(l)); return { l, remote: true }; }
+    catch (e) { let l = readJSON('content/licences.json'); if (!l) { try { l = await bundledJSON('licences.json'); } catch (e2) {} } return { l, remote: false }; }
+  },
+  async check(k) {
+    if (this.norm(k).length !== 12) return 'bad';
+    const h = await this.hash(k), { l, remote } = await this.list();
+    if (l && l.h.includes(h)) return 'ok';
+    return remote ? 'bad' : 'offline';
+  },
+  save(k) { this.key = this.pretty(k); try { localStorage.setItem('licence', this.key); } catch (e) {} Native.writeText('licence.txt', this.key); },
+  clear() { this.key = null; try { localStorage.removeItem('licence'); } catch (e) {} Native.remove('licence.txt'); },
+  // a revoked key relocks the next time the phone is online; offline it stays open
+  async recheck() {
+    if (!this.key) return false;
+    try { const l = await remoteJSON('licences.json'); Native.writeText('content/licences.json', JSON.stringify(l)); if (!l.h.includes(await this.hash(this.key))) { this.clear(); return true; } } catch (e) {}
+    return false;
+  },
+};
+const isLocked = l => !Lic.key && INDEX.lessons.indexOf(l) > 0;
+function openUnlockSheet() {
+  const sh = openSheet(`<h3>${t('unlockT')}</h3><p class="sub">${t('unlockSub', INDEX.lessons.length)}</p>
+    <input class="key-in" id="k-in" dir="ltr" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" placeholder="${t('keyPh')}" maxlength="14" inputmode="text">
+    <div class="key-msg" id="k-msg" role="alert"></div>
+    <button class="btn wide" id="k-go">${t('unlock')}</button>
+    <p class="sub" style="margin:24px 0 2px">${t('buyHow')}</p>
+    <button class="link" id="k-ig">${I.camera}<div class="tx">Instagram<small>@${esc(CONTACT.instagram)}</small></div>${I.chevron}</button>
+    <button class="link" id="k-mail">${I.mail}<div class="tx">${t('email')}<small>${esc(CONTACT.email)}</small></div>${I.chevron}</button>`);
+  const inp = $('#k-in', sh), msg = $('#k-msg', sh), go = $('#k-go', sh);
+  inp.oninput = () => { const p = Lic.pretty(inp.value).slice(0, 14); if (p !== inp.value) inp.value = p; msg.textContent = ''; };
+  inp.onkeydown = e => { if (e.key === 'Enter') go.click(); };
+  $('#k-ig', sh).onclick = () => Native.openUrl('https://instagram.com/' + CONTACT.instagram);
+  $('#k-mail', sh).onclick = () => Native.openUrl('mailto:' + CONTACT.email);
+  go.onclick = async () => {
+    if (!Lic.norm(inp.value)) { inp.focus(); return; }
+    go.disabled = true; go.textContent = t('checkingKey'); msg.textContent = '';
+    let r; try { r = await Lic.check(inp.value); } catch (e) { r = 'offline'; }
+    go.disabled = false; go.textContent = t('unlock');
+    if (r !== 'ok') { msg.textContent = t(r === 'bad' ? 'badKey' : 'keyOffline'); return; }
+    Lic.save(inp.value); SRS.words = null; closeSheet(); toast(t('unlocked')); render(window.scrollY);
+  };
+}
+
+/* ---------- First run: language, then short guided tours ---------- */
+function chooseLanguage() {
+  return new Promise(res => {
+    const w = document.createElement('div'); w.className = 'welcome';
+    w.innerHTML = `<div class="wl-in"><div class="about-mark">${I.book}</div><h1>Once Upon a Fable</h1>
+      <p class="fa">زبان برنامه را انتخاب کنید</p><p>Choose the app language</p>
+      <button class="btn wide fa-btn" data-l="fa">فارسی</button><button class="btn ghost wide" data-l="en">English</button>
+      <small><span class="fa">می‌توانید بعداً آن را در تنظیمات تغییر دهید</span><br>You can change it later in Settings</small></div>`;
+    document.body.appendChild(w);
+    w.querySelectorAll('[data-l]').forEach(b => b.onclick = () => {
+      S.lang = b.dataset.l; saveSettings();
+      try { localStorage.setItem('lang-chosen', '1'); } catch (e) {}
+      w.classList.add('out'); setTimeout(() => w.remove(), 250); res();
+    });
+  });
+}
+const TOURS = {
+  home: [{ k: 'tWelcome' }, { sel: '.list .row', k: 'tStory' }, { sel: '#b-cards', k: 'tCards' }, { sel: '#b-set', k: 'tSet' }, { sel: '#b-about', k: 'tAbout' }],
+  lesson: [{ sel: '#b-listen', k: 'tListen' }, { sel: '#b-type', k: 'tType' }, { sel: '#t-full', k: 'tTr' }, { sel: '.story .w.v', k: 'tWord' }, { sel: '#b-ex', k: 'tEx' }],
+  player: [{ sel: '#player .top', k: 'tPlay' }, { sel: '#pl-sp', k: 'tSpd' }, { sel: '.pl-tg', k: 'tPlTg' }],
+};
+const Tour = {
+  on: false,
+  seen() { try { return JSON.parse(localStorage.getItem('tours') || '{}'); } catch (e) { return {}; } },
+  mark(n) { const s = this.seen(); s[n] = 1; try { localStorage.setItem('tours', JSON.stringify(s)); } catch (e) {} },
+  reset() { try { localStorage.removeItem('tours'); } catch (e) {} },
+  maybe(n) { if (this.on || this.seen()[n] || !localStorage.getItem('lang-chosen')) return; setTimeout(() => this.run(n), n === 'home' ? 350 : 800); },
+  run(n) {
+    if (this.on || this.seen()[n]) return;
+    const steps = TOURS[n].filter(s => !s.sel || $(s.sel)); if (!steps.length) return;
+    this.on = true; this.mark(n);
+    const y0 = window.scrollY, ov = document.createElement('div');
+    ov.className = 'tour'; ov.innerHTML = '<div class="tour-hole"></div><div class="tour-card" role="dialog" aria-live="polite"></div>';
+    document.body.appendChild(ov);
+    const hole = ov.firstChild, card = ov.lastChild;
+    let i = 0, el = null;
+    const place = () => {
+      const W = window.innerWidth, H = window.innerHeight;
+      if (el) {
+        const r = el.getBoundingClientRect(), p = 6;
+        Object.assign(hole.style, { left: r.left - p + 'px', top: r.top - p + 'px', width: r.width + 2 * p + 'px', height: r.height + 2 * p + 'px' });
+        const ch = card.offsetHeight, below = r.bottom + p + 14;
+        card.style.top = (below + ch < H - 12 || r.top < ch + 30 ? Math.min(below, H - ch - 12) : r.top - p - 14 - ch) + 'px';
+      } else {
+        Object.assign(hole.style, { left: W / 2 + 'px', top: H / 2 + 'px', width: '0px', height: '0px' });
+        card.style.top = Math.max(16, (H - card.offsetHeight) / 2) + 'px';
+      }
+    };
+    const tick = setInterval(() => place(), 250);
+    const end = () => { clearInterval(tick); ov.remove(); this.on = false; window.removeEventListener('resize', place); if (n === 'lesson') smoothTo(y0); };
+    const show = () => {
+      const s = steps[i]; el = s.sel ? $(s.sel) : null;
+      if (el && !el.closest('.bar') && !el.closest('#player')) el.scrollIntoView({ block: 'center' });
+      card.innerHTML = `<small>${t('stepOf', i + 1, steps.length)}</small><b>${t(s.k + 'T')}</b><p>${t(s.k)}</p>
+        <div class="tour-btns"><button class="tour-skip" id="tr-skip">${i < steps.length - 1 ? t('skip') : ''}</button>
+        ${i ? `<button class="btn ghost sm" id="tr-prev">${t('prev')}</button>` : ''}<button class="btn sm" id="tr-next">${i === steps.length - 1 ? t('done') : t('next')}</button></div>`;
+      $('#tr-skip', card).onclick = end;
+      if ($('#tr-prev', card)) $('#tr-prev', card).onclick = () => { i--; show(); };
+      $('#tr-next', card).onclick = () => { if (++i >= steps.length) end(); else show(); };
+      place(); requestAnimationFrame(place);
+    };
+    window.addEventListener('resize', place);
+    show();
+  },
+};
+window.Tour = Tour;
+
 /* ---------- Start ---------- */
 (async function start() {
   applySettings();
+  Lic.load();
   await loadIndex();
+  if (!localStorage.getItem('lang-chosen')) await chooseLanguage();
   App.go('home');
-  if (await refreshIndex()) { if (stack.length === 1) render(window.scrollY); }
-  setTimeout(async () => { try { const u = await checkUpdate(); if (u && $('#sheet-wrap').hidden) openUpdateSheet(u); } catch (e) {} }, 1200);
+  const changed = await refreshIndex(), relocked = await Lic.recheck();
+  if ((changed || relocked) && stack.length === 1) render(window.scrollY);
+  setTimeout(async () => { try { const u = await checkUpdate(); if (u && $('#sheet-wrap').hidden && !Tour.on) openUpdateSheet(u); } catch (e) {} }, 1200);
 })();
